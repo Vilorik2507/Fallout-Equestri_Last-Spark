@@ -166,6 +166,8 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="Mod.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Perk.h" />
