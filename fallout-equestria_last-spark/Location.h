@@ -8,7 +8,6 @@
 
 class Location {
  public:
-  Location() = default;
   Location(const std::string& name);
   ~Location() = default;
 
@@ -19,7 +18,7 @@ class Location {
   Location& operator=(Location&&) = default;
 
   void onEnter();
-  std::string getName() const { return m_name_loc; }
+  std::string getName() const { return name_loc; }
   const std::vector<std::unique_ptr<Location>>& getConnections() const {
     return connections_loc;
   }
@@ -30,7 +29,6 @@ class Location {
     return enemies_list;
   }
 
-  void setName(const std::string& name) { m_name_loc = name; }
   void addConnection(std::unique_ptr<Location> connection);
   void addNPC(std::unique_ptr<NPC> npc);
   void addEnemy(std::unique_ptr<Enemy> enemy);
@@ -38,7 +36,7 @@ class Location {
   void removeEnemy(size_t index);
 
  private:
-  std::string m_name_loc;
+  std::string name_loc;
   std::vector<std::unique_ptr<Location>> connections_loc;
   std::vector<std::unique_ptr<NPC>> npc_list;
   std::vector<std::unique_ptr<Enemy>> enemies_list;

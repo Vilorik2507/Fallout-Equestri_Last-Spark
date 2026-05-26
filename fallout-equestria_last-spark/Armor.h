@@ -3,9 +3,9 @@
 
 class Armor : public Item {
  public:
-  Armor() = default;
+  Armor(const std::string& name, float weight, int value, int defense);
   ~Armor() = default;
 
  private:
-  // Поля по вашему усмотрению
+  int defense;
 };

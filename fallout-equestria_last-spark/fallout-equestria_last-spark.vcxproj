@@ -125,17 +125,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionType.cpp" />
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="CharacterStats.cpp" />
+    <ClCompile Include="Choice.cpp" />
     <ClCompile Include="CombatAction.cpp" />
+    <ClCompile Include="CombatAI.cpp" />
     <ClCompile Include="Combatant.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Consumable.cpp" />
+    <ClCompile Include="Dialogue.cpp" />
+    <ClCompile Include="DialogueNode.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Faction.cpp" />
     <ClCompile Include="fallout-equestria_last-spark.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameAction.cpp" />
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Inventory.cpp" />
@@ -146,20 +152,29 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Perk.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestStage.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionType.h" />
     <ClInclude Include="Armor.h" />
     <ClInclude Include="CharacterStats.h" />
+    <ClInclude Include="Choice.h" />
     <ClInclude Include="CombatAction.h" />
+    <ClInclude Include="CombatAI.h" />
     <ClInclude Include="Combatant.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Consumable.h" />
+    <ClInclude Include="Dialogue.h" />
+    <ClInclude Include="DialogueNode.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Faction.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameAction.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Inventory.h" />
@@ -171,8 +186,18 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Perk.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="QuestStage.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\dialogues.json" />
+    <None Include="resources\factions.json" />
+    <None Include="resources\items.json" />
+    <None Include="resources\locations.json" />
+    <None Include="resources\npcs.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

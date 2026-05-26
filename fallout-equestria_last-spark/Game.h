@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "Location.h"
 #include "Player.h"
+#include "ResourceManager.h"
 
 class Game {
  public:

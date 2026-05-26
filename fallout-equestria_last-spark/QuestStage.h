@@ -3,7 +3,7 @@
 
 class QuestStage {
  public:
-  QuestStage() = default;
+  QuestStage(const std::string& description, bool isDone = false);
   ~QuestStage() = default;
 
  private:

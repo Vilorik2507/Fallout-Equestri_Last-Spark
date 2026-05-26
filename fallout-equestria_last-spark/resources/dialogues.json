@@ -1,0 +1,34 @@
+[
+    {
+        "id": "elder_greeting",
+        "npc_line": "Привет, путник. Чем могу помочь?",
+        "choice1": "Расскажи о деревне",
+        "next_dialogue1": "elder_story",
+        "choice2": "Мне нужен квест",
+        "next_dialogue2": "elder_quest",
+        "choice3": "Пока",
+        "next_dialogue3": "end"
+    },
+    {
+        "id": "elder_story",
+        "npc_line": "Наша деревня славится пшеницей.",
+        "choice1": "Понятно. А квест есть?",
+        "next_dialogue1": "elder_quest",
+        "choice2": "Прощай",
+        "next_dialogue2": "end"
+    },
+    {
+        "id": "elder_quest",
+        "npc_line": "Убей трёх волков в лесу.",
+        "choice1": "Берусь!",
+        "next_dialogue1": "end",
+        "choice2": "Отказ",
+        "next_dialogue2": "end"
+    },
+    {
+        "id": "end",
+        "npc_line": "Будь осторожен.",
+        "choice1": "",
+        "next_dialogue1": ""
+    }
+]

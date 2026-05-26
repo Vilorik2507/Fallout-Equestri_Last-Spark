@@ -6,7 +6,7 @@
 
 class Quest {
  public:
-  Quest() = default;
+  Quest(const std::string& name, const std::vector<QuestStage*>& stages);
   ~Quest() = default;
 
   void advanceQuest();

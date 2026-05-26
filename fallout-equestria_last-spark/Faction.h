@@ -1,7 +1,9 @@
 #pragma once
+#include <string>
+
 class Faction {
  public:
-  Faction() = default;
+  Faction(int id, const std::string& name);
   ~Faction() = default;
 
  private:

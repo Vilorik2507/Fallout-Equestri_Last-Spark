@@ -3,11 +3,12 @@
 
 class Weapon : public Item {
  public:
-  Weapon() = default;
+  Weapon(const std::string& name, float weight, int value, int damage);
   ~Weapon() = default;
 
+  int getDamage() const { return damage; };
   void recalcDamage();
 
  private:
-  // Поля по вашему усмотрению
+  int damage;
 };

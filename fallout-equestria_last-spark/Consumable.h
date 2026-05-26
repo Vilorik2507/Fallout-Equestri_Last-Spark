@@ -3,9 +3,9 @@
 
 class Consumable : public Item {
  public:
-  Consumable() = default;
+  Consumable(const std::string& name, float weight, int value, int heal);
   ~Consumable() = default;
 
  private:
-  // Поля по вашему усмотрению
+  int heal;
 };

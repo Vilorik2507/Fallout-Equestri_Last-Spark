@@ -6,8 +6,11 @@
 
 class DialogueNode {
  public:
-  DialogueNode() = default;
+  DialogueNode(const std::string& npcLine, const std::vector<Choice>& choices);
   ~DialogueNode() = default;
+
+  const std::string& getNpcLine() const { return npc_line; };
+  const std::vector<Choice>& getChoices() const { return choices_pl; };
 
  private:
   std::string npc_line;

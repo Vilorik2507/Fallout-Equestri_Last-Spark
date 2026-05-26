@@ -6,10 +6,11 @@
 
 class NPC {
  public:
-  NPC() = default;
+  NPC(const std::string& name, Dialogue* dialogue, Faction* faction);
   ~NPC() = default;
 
   void talkWithPlayer();
+  const std::string& getName() const { return name_npc; };
 
  private:
   std::string name_npc;
