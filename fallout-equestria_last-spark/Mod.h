@@ -4,8 +4,11 @@
 
 class Mod {
  public:
-  Mod() = default;
+  Mod(std::map<std::string, int>&);
   ~Mod() = default;
+
+  const std::map<std::string, int>& getBonuses() const;
+  const std::string& getName() const;
 
  private:
   std::string name_mod;

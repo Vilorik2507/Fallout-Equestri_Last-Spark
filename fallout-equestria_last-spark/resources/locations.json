@@ -1,23 +1,30 @@
 [
-    {
-        "id": "village_center",
-        "name": "Центр деревни",
-        "connections": "village_shop,village_tavern",
-        "npcs": "elder,trader",
-        "enemies": ""
-    },
-    {
-        "id": "village_shop",
-        "name": "Лавка торговца",
-        "connections": "village_center",
-        "npcs": "trader",
-        "enemies": ""
-    },
-    {
-        "id": "village_tavern",
-        "name": "Таверна",
-        "connections": "village_center",
-        "npcs": "bartender",
-        "enemies": ""
-    }
+  {
+    "id": "village_center",
+    "name": "Центр деревни",
+    "connections": "village_shop,village_tavern,forest",
+    "npcs": "elder,trader",
+    "enemies": ""
+  },
+  {
+    "id": "village_shop",
+    "name": "Лавка торговца",
+    "connections": "village_center",
+    "npcs": "trader",
+    "enemies": ""
+  },
+  {
+    "id": "village_tavern",
+    "name": "Таверна",
+    "connections": "village_center",
+    "npcs": "",
+    "enemies": ""
+  },
+  {
+    "id": "forest",
+    "name": "Лес",
+    "connections": "village_center",
+    "npcs": "",
+    "enemies": "wolf,goblin"
+  }
 ]

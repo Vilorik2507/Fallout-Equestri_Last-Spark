@@ -1,12 +1,13 @@
+#pragma once
 #include <memory>
 #include <string>
 
-#include "CombatSystem.h"
-#include "GameClient.h"
-#include "GameState.h"
-#include "Location.h"
-#include "Player.h"
 #include "ResourceManager.h"
+class Location;
+class Player;
+class CombatSystem;
+class GameClient;
+class GameState;
 
 class Game {
  public:
@@ -24,11 +25,14 @@ class Game {
   void updateDeltaTime();
   void startMultiplayerMatch(const std::string& nickname, const std::string& ip,
                              int port);
+  void setLocation(std::shared_ptr<Location> loc);
+  static void gameOver();
+  static std::shared_ptr<Player> getPlayer() { return player_object; }
 
  private:
-  std::unique_ptr<Location> current_location;
-  std::unique_ptr<Player> player_object;
-  std::unique_ptr<CombatSystem> combat_system;
-  std::unique_ptr<GameClient> network_client;
+  std::shared_ptr<Location> current_location;
+  static std::shared_ptr<Player> player_object;
+  std::shared_ptr<CombatSystem> combat_system;
+  std::shared_ptr<GameClient> network_client;
   bool is_multiplayer;
 };

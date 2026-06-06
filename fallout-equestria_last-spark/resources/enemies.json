@@ -1,26 +1,20 @@
 [
-    {
-        "id": "wolf",
-        "name": "Волк",
-        "level": 1,
-        "hp": 30,
-        "damage": 8,
-        "initiative": 12
-    },
-    {
-        "id": "goblin",
-        "name": "Гоблин",
-        "level": 2,
-        "hp": 45,
-        "damage": 10,
-        "initiative": 10
-    },
-    {
-        "id": "bear",
-        "name": "Медведь",
-        "level": 5,
-        "hp": 120,
-        "damage": 25,
-        "initiative": 8
-    }
+  {
+    "id": "wolf",
+    "name": "Волк",
+    "level": 1,
+    "hp": 30,
+    "damage": 8,
+    "initiative": 12,
+    "loot_table": "wolf_loot"
+  },
+  {
+    "id": "goblin",
+    "name": "Гоблин",
+    "level": 2,
+    "hp": 45,
+    "damage": 10,
+    "initiative": 10,
+    "loot_table": "goblin_loot"
+  }
 ]

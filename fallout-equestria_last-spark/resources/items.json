@@ -1,5 +1,55 @@
 [
-    { "id": "iron_sword", "type": "weapon", "name": "Железный меч", "weight": 2.5, "value": 100, "damage": 15 },
-    { "id": "leather_armor", "type": "armor", "name": "Кожаная броня", "weight": 5.0, "value": 80, "defense": 5 },
-    { "id": "health_potion", "type": "consumable", "name": "Зелье здоровья", "weight": 0.2, "value": 30, "heal": 50 }
+  {
+    "id": "iron_sword",
+    "type": "weapon",
+    "name": "Железный меч",
+    "weight": 2.5,
+    "value": 100,
+    "damage": 15
+  },
+  {
+    "id": "leather_armor",
+    "type": "armor",
+    "name": "Кожаная броня",
+    "weight": 5.0,
+    "value": 80,
+    "defense": 5
+  },
+  {
+    "id": "health_potion",
+    "type": "consumable",
+    "name": "Зелье здоровья",
+    "weight": 0.2,
+    "value": 30,
+    "heal": 50
+  },
+  {
+    "id": "wolf_pelt",
+    "type": "misc",
+    "name": "Волчья шкура",
+    "weight": 1.0,
+    "value": 20
+  },
+  {
+    "id": "goblin_ear",
+    "type": "misc",
+    "name": "Ухо гоблина",
+    "weight": 0.1,
+    "value": 5
+  },
+  {
+    "id": "gold_coin",
+    "type": "misc",
+    "name": "Золотая монета",
+    "weight": 0.01,
+    "value": 1
+  },
+  {
+    "id": "healing_potion_small",
+    "type": "consumable",
+    "name": "Малое зелье лечения",
+    "weight": 0.1,
+    "value": 15,
+    "heal": 25
+  }
 ]

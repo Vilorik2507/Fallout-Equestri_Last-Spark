@@ -1,3 +1,4 @@
+#pragma once
 #include <memory>
 #include <queue>
 #include <vector>
@@ -18,8 +19,8 @@ class CombatSystem {
   CombatSystem(CombatSystem&&) = default;
   CombatSystem& operator=(CombatSystem&&) = default;
 
-  void startCombat(Player& player,
-                   std::vector<std::unique_ptr<Enemy>>& enemies);
+  bool startCombat(Player& player,
+                   std::vector<std::shared_ptr<Enemy>>& enemies);
   void executeAction(const CombatAction& action);
   void endCombat();
 

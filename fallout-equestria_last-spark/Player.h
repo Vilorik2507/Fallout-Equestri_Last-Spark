@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -8,7 +9,9 @@
 #include "Effect.h"
 #include "Faction.h"
 #include "Inventory.h"
+#include "Item.h"
 #include "Perk.h"
+#include "Quest.h"
 #include "Skill.h"
 #include "Weapon.h"
 
@@ -20,21 +23,28 @@ class Player : public Combatant {
   void createNew();
   void levelUp();
   void addExp(int amount);
+  void addItem(std::shared_ptr<Item>);
   void addPerk(const Perk& perk);
   void modifyReputation(const Faction& faction, int delta);
   int getDamage(const Weapon& weapon);
-  void applyDamage(int damage) override;
+  void applyDamage(int damage) override { return; };
   void healPlayer(int amount);
   void applyBuffEffect(const Effect& effect, int duration);
-
+  Inventory& getInventory();
+  const Inventory& getInventory() const;
   // Combatant interface
-  int getHp() const override;
-  bool isAlive() const override;
-  int getInitiative() const override;
+  int getHp() const override { return 0; };
+  bool isAlive() const override { return true; };
+  int getInitiative() const override { return 0; };
+  int getGold() const;
+  void setGold(int amount);
+  void spendGold(int amount);
+  void addGold(int amount);
 
  private:
   std::string name_pl;
   int level_pl;
+  int gold;
   int exp_pl;
   CharacterStats stats_pl;
   std::vector<Skill> skills_pl;

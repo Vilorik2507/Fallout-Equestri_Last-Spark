@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 #include "Item.h"
@@ -10,11 +11,12 @@ class Inventory {
   Inventory() = default;
   ~Inventory() = default;
 
-  void addItem(const Item& item);
-  void removeItem(const Item& item);
+  const std::vector<std::shared_ptr<Item>>& getItems() const;
+  void addItem(std::shared_ptr<Item> item);
+  void removeItem(const std::shared_ptr<Item>& item);
   void craftMod(Weapon& weapon, const Mod& mod);
 
  private:
-  std::vector<Item> items_list;
+  std::vector<std::shared_ptr<Item>> items_list;
   float max_weight;
 };

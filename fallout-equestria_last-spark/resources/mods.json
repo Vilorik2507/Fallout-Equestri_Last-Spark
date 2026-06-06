@@ -1,0 +1,10 @@
+[
+  {
+    "id": "sharp_blade",
+    "bonuses": "damage:10,weight:0.5"
+  },
+  {
+    "id": "light_grip",
+    "bonuses": "weight:-0.3,initiative:2"
+  }
+]

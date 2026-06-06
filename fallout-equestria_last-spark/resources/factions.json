@@ -1,4 +1,17 @@
 [
-    { "id": "neutral", "fid": 0, "name": "Нейтралы" },
-    { "id": "city_watch", "fid": 1, "name": "Городская стража" }
+  {
+    "id": "neutral",
+    "fid": 0,
+    "name": "Нейтралы"
+  },
+  {
+    "id": "city_watch",
+    "fid": 1,
+    "name": "Городская стража"
+  },
+  {
+    "id": "bandits",
+    "fid": 2,
+    "name": "Бандиты"
+  }
 ]

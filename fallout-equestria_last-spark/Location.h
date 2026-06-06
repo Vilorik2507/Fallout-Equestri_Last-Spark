@@ -3,41 +3,44 @@
 #include <string>
 #include <vector>
 
-#include "Enemy.h"
-#include "NPC.h"
+class Player;
+class CombatSystem;
+class Game;
+class NPC;
+class Enemy;
 
 class Location {
  public:
   Location(const std::string& name);
   ~Location() = default;
 
-  Location(const Location&) = delete;
-  Location& operator=(const Location&) = delete;
-
-  Location(Location&&) = default;
-  Location& operator=(Location&&) = default;
+  void setGameContext(Player* player, CombatSystem* combatSystem);
 
   void onEnter();
   std::string getName() const { return name_loc; }
-  const std::vector<std::unique_ptr<Location>>& getConnections() const {
+  const std::vector<std::shared_ptr<Location>>& getConnections() const {
     return connections_loc;
   }
-  const std::vector<std::unique_ptr<NPC>>& getNPCList() const {
+  const std::vector<std::shared_ptr<NPC>>& getNPCList() const {
     return npc_list;
   }
-  const std::vector<std::unique_ptr<Enemy>>& getEnemiesList() const {
+  const std::vector<std::shared_ptr<Enemy>>& getEnemiesList() const {
     return enemies_list;
   }
 
-  void addConnection(std::unique_ptr<Location> connection);
-  void addNPC(std::unique_ptr<NPC> npc);
-  void addEnemy(std::unique_ptr<Enemy> enemy);
+  void addConnection(std::shared_ptr<Location> connection);
+  void addNPC(std::shared_ptr<NPC> npc);
+  void addEnemy(std::shared_ptr<Enemy> enemy);
   void removeNPC(size_t index);
   void removeEnemy(size_t index);
 
  private:
+  static Player* g_player;
+  static CombatSystem* g_combatSystem;
+  static Game* g_game;
+
   std::string name_loc;
-  std::vector<std::unique_ptr<Location>> connections_loc;
-  std::vector<std::unique_ptr<NPC>> npc_list;
-  std::vector<std::unique_ptr<Enemy>> enemies_list;
+  std::vector<std::shared_ptr<Location>> connections_loc;
+  std::vector<std::shared_ptr<NPC>> npc_list;
+  std::vector<std::shared_ptr<Enemy>> enemies_list;
 };

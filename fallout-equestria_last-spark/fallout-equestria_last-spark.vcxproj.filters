@@ -226,5 +226,17 @@
     <None Include="resources\dialogues.json">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="resources\quests.json">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="resources\enemies.json">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="resources\loot_table.json">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="resources\mods.json">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

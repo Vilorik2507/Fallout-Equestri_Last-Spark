@@ -9,6 +9,7 @@ class Item {
   const std::string& getName() const { return name_it; };
   float getWeight() const { return weight_it; };
   int getValue() const { return value_it; };
+  int getSellValue() const;
 
  protected:
   std::string name_it;

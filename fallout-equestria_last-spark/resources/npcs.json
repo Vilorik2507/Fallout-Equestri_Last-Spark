@@ -1,3 +1,23 @@
 [
-    { "id": "trader_john", "name": "Торговец Джон", "dialogue": "trader_dialogue", "faction": "neutral" }
+  {
+    "id": "elder",
+    "name": "Старейшина",
+    "dialogue": "elder_dialogue",
+    "faction": "neutral",
+    "shop": "health_potion,iron_sword,leather_armor"
+  },
+  {
+    "id": "trader",
+    "name": "Торговец",
+    "dialogue": "trader_dialogue",
+    "faction": "neutral",
+    "shop": "health_potion,iron_sword,leather_armor"
+  },
+  {
+    "id": "guard",
+    "name": "Стражник",
+    "dialogue": "guard_dialogue",
+    "faction": "city_watch",
+    "shop": "health_potion,iron_sword,leather_armor"
+  }
 ]

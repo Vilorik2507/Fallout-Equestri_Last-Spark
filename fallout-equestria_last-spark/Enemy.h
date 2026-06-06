@@ -4,7 +4,8 @@
 
 class Enemy : public Combatant {
  public:
-  Enemy(const std::string& name, int level, int hp, int damage, int initiative);
+  Enemy(const std::string& name, int level, int hp, int damage, int initiative,
+        const std::string& lootTableId);
   ~Enemy() = default;
 
   void dropReward() {};
@@ -17,8 +18,11 @@ class Enemy : public Combatant {
 
   const std::string& getName() const { return name_en; }
   int getDamage() const { return damage_en; }
+  int getLevel() const { return level_en; };
+  std::string& getLootTableId() { return loot_table_en; };
 
  private:
+  std::string loot_table_en;
   std::string name_en;
   int level_en;
   int hp_en;

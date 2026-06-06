@@ -194,10 +194,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\dialogues.json" />
+    <None Include="resources\enemies.json" />
     <None Include="resources\factions.json" />
     <None Include="resources\items.json" />
     <None Include="resources\locations.json" />
+    <None Include="resources\loot_table.json" />
+    <None Include="resources\mods.json" />
     <None Include="resources\npcs.json" />
+    <None Include="resources\quests.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
