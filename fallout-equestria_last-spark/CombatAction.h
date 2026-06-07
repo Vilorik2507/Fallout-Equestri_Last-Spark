@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <vector>
 
@@ -7,11 +8,16 @@
 
 class CombatAction {
  public:
-  CombatAction() = default;
-  ~CombatAction() = default;
+  CombatAction(Combatant* source, Combatant* target, const std::string& type);
 
-  bool calculateHit();
-  void apply();
+  bool calculateHit() const;
+  void apply() const;
+
+  void addEffect(const Effect& effect);
+
+  Combatant* getSource() const { return source; }
+  Combatant* getTarget() const { return target; }
+  std::string getType() const { return type; }
 
  private:
   Combatant* source;

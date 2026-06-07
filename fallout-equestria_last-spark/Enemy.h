@@ -1,4 +1,7 @@
 #pragma once
+
+#include <iostream>
+
 #include "CombatAI.h"
 #include "Combatant.h"
 
@@ -6,20 +9,20 @@ class Enemy : public Combatant {
  public:
   Enemy(const std::string& name, int level, int hp, int damage, int initiative,
         const std::string& lootTableId);
-  ~Enemy() = default;
 
-  void dropReward() {};
-  void applyDamage(int damage) override { hp_en -= damage; };
+  void dropReward();
+  void applyDamage(int damage) override;
 
   // Combatant interface
-  int getHp() const override { return hp_en; };
-  bool isAlive() const override { return hp_en <= 0; };
-  int getInitiative() const override { return initiative_en; };
-
-  const std::string& getName() const { return name_en; }
-  int getDamage() const { return damage_en; }
-  int getLevel() const { return level_en; };
-  std::string& getLootTableId() { return loot_table_en; };
+  int getHp() const override;
+  bool isAlive() const override;
+  int getInitiative() const override;
+  const std::string& getName() const override;
+  int getDamage() const;
+  int getLevel() const;
+  std::string& getLootTableId();
+  void setDistance(int distance);
+  int getDistance() const;
 
  private:
   std::string loot_table_en;
@@ -30,4 +33,5 @@ class Enemy : public Combatant {
   int damage_en;
   int initiative_en;
   CombatAI* ai_en;
+  int distance_en;
 };

@@ -14,7 +14,9 @@ class Location {
   Location(const std::string& name);
   ~Location() = default;
 
-  void setGameContext(Player* player, CombatSystem* combatSystem);
+  static void setGameContext(std::shared_ptr<Player> player,
+                             std::shared_ptr<CombatSystem> combatSystem,
+                             Game* game);
 
   void onEnter();
   std::string getName() const { return name_loc; }
@@ -33,10 +35,11 @@ class Location {
   void addEnemy(std::shared_ptr<Enemy> enemy);
   void removeNPC(size_t index);
   void removeEnemy(size_t index);
+  void showMenu();
 
  private:
-  static Player* g_player;
-  static CombatSystem* g_combatSystem;
+  static std::shared_ptr<Player> g_player;
+  static std::shared_ptr<CombatSystem> g_combatSystem;
   static Game* g_game;
 
   std::string name_loc;

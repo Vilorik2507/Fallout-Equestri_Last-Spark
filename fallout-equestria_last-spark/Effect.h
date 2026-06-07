@@ -6,11 +6,12 @@
 
 class Effect {
  public:
-  Effect() = default;
-  ~Effect() = default;
+  Effect(const std::string& name, int duration,
+         const std::map<std::string, int>& modifiers);
+  ~Effect();
 
-  void apply(Combatant* target);
-  void tick();
+  void apply(Combatant* target) const;
+  void tick(Combatant* target);
 
  private:
   std::string name;

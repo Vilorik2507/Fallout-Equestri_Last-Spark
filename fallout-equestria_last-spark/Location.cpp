@@ -9,13 +9,16 @@
 #include "NPC.h"
 #include "Player.h"
 
-Player* Location::g_player = nullptr;
-CombatSystem* Location::g_combatSystem = nullptr;
+std::shared_ptr<Player> Location::g_player = nullptr;
+std::shared_ptr<CombatSystem> Location::g_combatSystem = nullptr;
 Game* Location::g_game = nullptr;
 
-void Location::setGameContext(Player* player, CombatSystem* combatSystem) {
+void Location::setGameContext(std::shared_ptr<Player> player,
+                              std::shared_ptr<CombatSystem> combatSystem,
+                              Game* game) {
   g_player = player;
   g_combatSystem = combatSystem;
+  g_game = game;
 }
 
 Location::Location(const std::string& name) : name_loc(name) {};
@@ -46,17 +49,17 @@ void Location::removeEnemy(size_t index) {
 
 void Location::onEnter() {
   std::cout << "\n=== " << name_loc << " ===\n";
-
   if (!enemies_list.empty()) {
     std::cout << "¬ас атакуют враги!\n";
     if (g_combatSystem && g_player) {
-      if (!g_combatSystem->startCombat(*g_player, enemies_list)) {
-        g_game->gameOver;
-      }
-      enemies_list.clear();
+      g_combatSystem->startCombat(g_player, enemies_list);
     }
+    return;  // не показываем меню, пока идЄт бой
   }
+  showMenu();  // если врагов нет Ц сразу показываем меню
+}
 
+void Location::showMenu() {
   while (true) {
     std::cout << "\n«десь вы можете:\n";
     int choiceIndex = 1;
@@ -91,7 +94,6 @@ void Location::onEnter() {
     if (!npc_list.empty() && input <= static_cast<int>(npc_list.size())) {
       size_t npcIdx = input - 1;
       npc_list[npcIdx]->talkWithPlayer();
-
     } else {
       int connIdx = input - 1 - static_cast<int>(npc_list.size());
       if (connIdx >= 0 &&

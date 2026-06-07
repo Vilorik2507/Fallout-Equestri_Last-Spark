@@ -31,6 +31,12 @@ int main() {
 #endif
   Game game = Game();
   game.startGame();
+  while (true) {
+    game.handleInput();      // читаем клавиши
+    game.updateDeltaTime();  // обновляем физику, ИИ, бой
+                             // здесь можно добавить Sleep(16) для 60 FPS
+    std::this_thread::sleep_for(std::chrono::milliseconds(16));
+  }
 }
 
 /*network.SetMessageCallback(OnMessageReceived);

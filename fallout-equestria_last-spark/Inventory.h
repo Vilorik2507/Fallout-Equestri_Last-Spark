@@ -15,6 +15,7 @@ class Inventory {
   void addItem(std::shared_ptr<Item> item);
   void removeItem(const std::shared_ptr<Item>& item);
   void craftMod(Weapon& weapon, const Mod& mod);
+  void listItems() const;
 
  private:
   std::vector<std::shared_ptr<Item>> items_list;

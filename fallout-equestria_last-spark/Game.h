@@ -35,4 +35,5 @@ class Game {
   std::shared_ptr<CombatSystem> combat_system;
   std::shared_ptr<GameClient> network_client;
   bool is_multiplayer;
+  bool menuShown = false;
 };

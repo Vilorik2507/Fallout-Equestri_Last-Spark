@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 #include "CombatAction.h"
@@ -6,12 +7,7 @@
 
 class CombatAI {
  public:
-  CombatAI() = default;
-  ~CombatAI() = default;
-
-  CombatAction* chooseAction(Combatant* enemy, std::vector<Combatant*>& allies,
-                             std::vector<Combatant*>& enemies);
-
- private:
-  // Поля по вашему усмотрению
+  CombatAction chooseAction(
+      Combatant* self, const std::vector<std::shared_ptr<Combatant>>& allies,
+      const std::vector<std::shared_ptr<Combatant>>& enemies);
 };
