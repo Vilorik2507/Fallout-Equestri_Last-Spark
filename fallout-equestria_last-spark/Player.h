@@ -26,8 +26,6 @@ class Player : public Combatant {
   void addItem(std::shared_ptr<Item>);
   void addPerk(const Perk& perk);
   void modifyReputation(const Faction& faction, int delta);
-  int getDamage(const Weapon& weapon);
-  void applyDamage(int damage) override;
   void healPlayer(int amount);
   void applyBuffEffect(const Effect& effect, int duration);
   Inventory& getInventory();
@@ -36,6 +34,14 @@ class Player : public Combatant {
   int getHp() const override { return 100; };
   bool isAlive() const override { return hp_pl > 0; };
   int getInitiative() const override { return 10; };
+  int getDamage() override;
+
+  std::shared_ptr<Weapon> getActivWeopon() { return activ_weopon; };
+  void setActivWeopon(std::shared_ptr<Weapon> weopon) {
+    activ_weopon = weopon;
+  };
+  void applyDamage(int damage) override;
+
   int getGold() const;
   void setGold(int amount);
   void spendGold(int amount);
@@ -44,9 +50,10 @@ class Player : public Combatant {
   void useItem(int index);
 
  private:
+  std::shared_ptr<Weapon> activ_weopon;
   std::string name_pl = "Пони";
   int level_pl;
-  int gold;
+  int gold = 100;
   int exp_pl;
   CharacterStats stats_pl;
   std::vector<Skill> skills_pl;

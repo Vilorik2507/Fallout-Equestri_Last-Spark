@@ -36,6 +36,7 @@ class Location {
   void removeNPC(size_t index);
   void removeEnemy(size_t index);
   void showMenu();
+  void showInventory();
 
  private:
   static std::shared_ptr<Player> g_player;

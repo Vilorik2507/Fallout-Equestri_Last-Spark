@@ -12,6 +12,7 @@
 #include "Location.h"
 #include "NPC.h"
 #include "Player.h"
+#include "Printer.h"
 
 std::shared_ptr<Player> Game::player_object;
 
@@ -28,15 +29,14 @@ void Game::startGame() {
   Location::setGameContext(player_object, combat_system, this);
   current_location = ResourceManager::getLocation("village_center");
   current_location->onEnter();
-  std::cout << "Добро пожаловать в мир апокалипсиса!";
 }
 
 void Game::handleInput() {
   if (combat_system && combat_system->isCombatActive()) {
     if (combat_system->isPlayerTurn()) {
-      std::cout << "\n[Combat] Your turn. Choose action:\n";
-      std::cout
-          << "1. Attack\n2. Use item\n3. Run away\n4. Approach enemy\nChoice: ";
+      slow_cout << "\n[БОЙ] Твой ход:\n";
+      slow_cout << "1. Атаковать\n2. Открыть инвентарь\n3. Убегать\n4. "
+                   "Приближаться\nВыбор: ";
       int choice;
       std::cin >> choice;
       if (std::cin.fail()) {
@@ -50,75 +50,67 @@ void Game::handleInput() {
 
       switch (choice) {
         case 1: {
-          // Выбор цели с отображением расстояния
-          std::cout << "Targets:\n";
+          slow_cout << "Цель:\n";
           for (size_t i = 0; i < enemies.size(); ++i) {
-            std::cout << i + 1 << ". " << enemies[i]->getName()
+            slow_cout << i + 1 << ". " << enemies[i]->getName()
                       << " (HP: " << enemies[i]->getHp()
                       << ", distance: " << enemies[i]->getDistance() << ")\n";
           }
-          std::cout << "Choice: ";
+          slow_cout << "Выбор: ";
           int targetIdx;
           std::cin >> targetIdx;
           if (targetIdx >= 1 && targetIdx <= (int)enemies.size()) {
             CombatAction action(player_object.get(),
                                 enemies[targetIdx - 1].get(), "attack");
             combat_system->executeAction(action);
-            // executeAction уже вызовет processNextTurn после хода игрока
             combat_system->endPlayerTurn();
           }
           break;
         }
         case 2: {
-          // Использовать предмет – показать инвентарь
           Inventory& inv = player_object->getInventory();
           auto items = inv.getItems();
           if (items.empty()) {
-            std::cout << "No items to use.\n";
+            slow_cout << "Инвентарь пуст.\n";
             break;
           }
-          std::cout << "Choose item to use:\n";
+          slow_cout << "Инвентарь:\n";
           inv.listItems();
-          std::cout << "Choice (0 to cancel): ";
+          slow_cout << "Выбор (0 для выхода): ";
           int itemIdx;
           std::cin >> itemIdx;
           if (itemIdx >= 1 && itemIdx <= (int)items.size()) {
             player_object->useItem(itemIdx);
-            // после использования предмета ход не заканчивается?
-            // Обычно ход переходит, поэтому вызываем завершение хода
             combat_system->endPlayerTurn();
           }
           break;
         }
-        case 3:  // Run away – увеличиваем дистанцию
-        {
-          std::cout << "You run away!\n";
+        case 3: {
+          slow_cout << "Вы отдаляетесь!\n";
           bool any_close = false;
           for (auto& enemy : enemies) {
             int new_dist = enemy->getDistance() + 2;
             if (new_dist > 15) new_dist = 15;
             enemy->setDistance(new_dist);
-            std::cout << enemy->getName() << " distance: " << new_dist
+            slow_cout << enemy->getName() << " Расстояние: " << new_dist
                       << std::endl;
             if (new_dist <= 10) any_close = true;
           }
           if (!any_close) {
-            std::cout << "You successfully escaped!\n";
+            slow_cout << "Вы успешно убегаете!\n";
             combat_system->endCombat();
           } else {
-            // Заканчиваем ход игрока, бой продолжается
             combat_system->endPlayerTurn();
           }
           break;
         }
-        case 4:  // Approach enemy
-        {
-          std::cout << "Approach which enemy?\n";
+        case 4: {
+          slow_cout << "К кому приближаться?\n";
           for (size_t i = 0; i < enemies.size(); ++i) {
-            std::cout << i + 1 << ". " << enemies[i]->getName()
+            slow_cout << i + 1 << ". " << enemies[i]->getName()
                       << " (distance: " << enemies[i]->getDistance() << ")\n";
           }
-          std::cout << "Choice: ";
+          slow_cout << "Выбор: ";
           int targetIdx;
           std::cin >> targetIdx;
           if (targetIdx >= 1 && targetIdx <= (int)enemies.size()) {
@@ -130,7 +122,7 @@ void Game::handleInput() {
           break;
         }
         default:
-          std::cout << "Invalid choice.\n";
+          slow_cout << "Неверный выбор.\n";
       }
     }
     return;
@@ -139,7 +131,6 @@ void Game::handleInput() {
 
 void Game::updateDeltaTime() {
   if (combat_system && combat_system->isCombatActive()) {
-    // Пока ход не игрока – продолжаем обрабатывать ходы ИИ
     while (!combat_system->isPlayerTurn() && combat_system->isCombatActive()) {
       combat_system->processNextTurn();
     }

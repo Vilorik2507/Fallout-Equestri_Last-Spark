@@ -9,18 +9,18 @@
 #include "NetworkManager.h"
 
 /*void OnMessageReceived(const std::string& message) {
-  std::cout << "\r[<-] " << message << std::endl;
-  std::cout << "> " << std::flush;
+  slow_cout << "\r[<-] " << message << std::endl;
+  slow_cout << "> " << std::flush;
 }
 
 void OnConnected() {
-  std::cout << "\r[+] Connected to server!" << std::endl;
-  std::cout << "Commands: /find, /quit, /disconnect" << std::endl;
-  std::cout << "> " << std::flush;
+  slow_cout << "\r[+] Connected to server!" << std::endl;
+  slow_cout << "Commands: /find, /quit, /disconnect" << std::endl;
+  slow_cout << "> " << std::flush;
 }
 
 void OnDisconnected() {
-  std::cout << "\r[-] Disconnected from server" << std::endl;
+  slow_cout << "\r[-] Disconnected from server" << std::endl;
 }
 */
 
@@ -28,13 +28,13 @@ int main() {
 #ifdef _WIN32
   SetConsoleOutputCP(1251);
   SetConsoleCP(1251);
+  system("color a");
 #endif
   Game game = Game();
   game.startGame();
   while (true) {
-    game.handleInput();      // читаем клавиши
-    game.updateDeltaTime();  // обновляем физику, ИИ, бой
-                             // здесь можно добавить Sleep(16) для 60 FPS
+    game.handleInput();
+    game.updateDeltaTime();
     std::this_thread::sleep_for(std::chrono::milliseconds(16));
   }
 }
@@ -48,7 +48,7 @@ bool running = true;
 
 while (running) {
     if (!network.IsConnected()) {
-        std::cout << "Enter server address (e.g. 127.0.0.1:8080 or /quit): ";
+        slow_cout << "Enter server address (e.g. 127.0.0.1:8080 or /quit): ";
         std::getline(std::cin, input);
 
         if (input == "/quit") {
@@ -69,14 +69,14 @@ while (running) {
         }
 
         if (!network.Connect(host, port)) {
-            std::cout << "Connection failed. Try again." << std::endl;
+            slow_cout << "Connection failed. Try again." << std::endl;
             continue;
         }
     }
 
     // Неблокирующая проверка ввода с консоли
     if (_kbhit()) {
-        std::cout << "> " << std::flush;
+        slow_cout << "> " << std::flush;
         std::getline(std::cin, input);
 
         if (input == "/quit") {
@@ -100,14 +100,14 @@ while (running) {
 }
 
 network.Shutdown();
-std::cout << "Goodbye!" << std::endl;
+slow_cout << "Goodbye!" << std::endl;
 return 0;
 
 }
 
 
 
-std::cout << "=== Game Client with Heartbeat ===" << std::endl;
+slow_cout << "=== Game Client with Heartbeat ===" << std::endl;
 
 auto& network = NetworkManager::GetInstance();
 

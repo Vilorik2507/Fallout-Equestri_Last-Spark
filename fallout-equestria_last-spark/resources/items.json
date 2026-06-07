@@ -5,7 +5,8 @@
     "name": "Железный меч",
     "weight": 2.5,
     "value": 100,
-    "damage": 15
+    "damage": 15,
+    "dist": 3
   },
   {
     "id": "leather_armor",

@@ -465,7 +465,8 @@ void ResourceManager::loadItems(const std::string& filePath) {
     int value = data.count("value") ? std::stoi(data["value"]) : 0;
     if (type == "weapon") {
       int damage = data.count("damage") ? std::stoi(data["damage"]) : 0;
-      auto weapon = std::make_shared<Weapon>(name, weight, value, damage);
+      int dist = data.count("dist") ? std::stoi(data["dist"]) : 0;
+      auto weapon = std::make_shared<Weapon>(name, weight, value, damage, dist);
       s_items[id] = weapon;
     } else if (type == "armor") {
       int defense = data.count("defense") ? std::stoi(data["defense"]) : 0;

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Item.h"
 #include "Player.h"
+#include "Printer.h"
 
 NPC::NPC(const std::string& name, const Dialogue* dialogue,
          const Faction* faction)
@@ -12,26 +13,29 @@ NPC::NPC(const std::string& name, const Dialogue* dialogue,
 
 void NPC::talkWithPlayer() {
   if (!dialogue) {
-    std::cout << name_npc << " has nothing to say." << std::endl;
+    slow_cout << name_npc << " нечего сказать." << std::endl;
     return;
   }
 
   DialogueNode* currentNode = dialogue->getStartNode();
   if (!currentNode) {
-    std::cout << name_npc << " seems lost for words." << std::endl;
+    slow_cout << name_npc << " тупит." << std::endl;
     return;
   }
 
   std::shared_ptr<Player> player = Game::getPlayer();
 
   if (!player) {
-    std::cout << "Error: Player not found!" << std::endl;
+    slow_cout << "Error: Player not found!" << std::endl;
     return;
   }
 
   while (currentNode) {
-    std::cout << name_npc << ": " << currentNode->getNpcLine() << std::endl;
-
+    slow_cout.setMode(SlowMode::CharByChar);
+    slow_cout.setDelay(25);
+    slow_cout << name_npc << ": " << currentNode->getNpcLine() << std::endl;
+    slow_cout.setDelay(200);
+    slow_cout.setMode(SlowMode::LineByLine);
     const std::vector<Choice>& choices = currentNode->getChoices();
 
     if (choices.empty()) {
@@ -39,15 +43,15 @@ void NPC::talkWithPlayer() {
     }
 
     for (size_t i = 0; i < choices.size(); ++i) {
-      std::cout << i + 1 << ". " << choices[i].getText() << std::endl;
+      slow_cout << i + 1 << ". " << choices[i].getText() << std::endl;
     }
 
     if (hasShop()) {
-      std::cout << choices.size() + 1 << ". Торговля" << std::endl;
+      slow_cout << choices.size() + 1 << ". Торговля" << std::endl;
     }
 
     int choiceIndex;
-    std::cout << "Your choice: ";
+    slow_cout << "Выбор: ";
     std::cin >> choiceIndex;
 
     if (hasShop() && choiceIndex == static_cast<int>(choices.size()) + 1) {
@@ -56,7 +60,7 @@ void NPC::talkWithPlayer() {
     }
 
     if (choiceIndex < 1 || choiceIndex > static_cast<int>(choices.size())) {
-      std::cout << "Invalid choice. Please try again." << std::endl;
+      slow_cout << "Неверный выбор." << std::endl;
       continue;
     }
 
@@ -76,29 +80,29 @@ void NPC::talkWithPlayer() {
 
     currentNode = dialogue->getNode(nextNodeId);
     if (!currentNode) {
-      std::cout << "Error: dialogue node '" << nextNodeId << "' not found."
+      slow_cout << "Error: dialogue node '" << nextNodeId << "' not found."
                 << std::endl;
       break;
     }
   }
 
-  std::cout << "Dialogue ended." << std::endl;
+  slow_cout << "Диалог закончен." << std::endl;
 }
 
 void NPC::trade() {
   auto player = Game::getPlayer();
   if (!player) {
-    std::cout << "Error: Player not found!" << std::endl;
+    slow_cout << "Error: Player not found!" << std::endl;
     return;
   }
 
   while (true) {
-    std::cout << "\n--- " << name_npc << "'s Shop ---" << std::endl;
-    std::cout << "Your gold: " << player->getGold() << std::endl;
-    std::cout << "1. Buy" << std::endl;
-    std::cout << "2. Sell" << std::endl;
-    std::cout << "0. Exit" << std::endl;
-    std::cout << "Choice: ";
+    slow_cout << "\n--- " << name_npc << "'s Торговля ---" << std::endl;
+    slow_cout << "Your gold: " << player->getGold() << std::endl;
+    slow_cout << "1. Купить" << std::endl;
+    slow_cout << "2. Продать" << std::endl;
+    slow_cout << "0. Выход" << std::endl;
+    slow_cout << "Выбор: ";
 
     int mainChoice;
     std::cin >> mainChoice;
@@ -108,64 +112,63 @@ void NPC::trade() {
     if (mainChoice == 1) {
       // Покупка
       while (true) {
-        std::cout << "\n--- Buy from " << name_npc << " ---" << std::endl;
-        std::cout << "Your gold: " << player->getGold() << std::endl;
+        slow_cout << "\n--- Купить у " << name_npc << " ---" << std::endl;
+        slow_cout << "Ваши крышки: " << player->getGold() << std::endl;
         if (shop_items_npc.empty()) {
-          std::cout << "No items for sale." << std::endl;
+          slow_cout << "Нет вещей на продажу." << std::endl;
           break;
         }
         for (size_t i = 0; i < shop_items_npc.size(); ++i) {
-          std::cout << i + 1 << ". " << shop_items_npc[i]->getName()
-                    << " - Price: " << shop_items_npc[i]->getValue() << " gold"
+          slow_cout << i + 1 << ". " << shop_items_npc[i]->getName()
+                    << " - Цена: " << shop_items_npc[i]->getValue() << " крышек"
                     << std::endl;
         }
-        std::cout << "0. Back" << std::endl;
-        std::cout << "Choice: ";
+        slow_cout << "0. Назад" << std::endl;
+        slow_cout << "Выбор: ";
 
         int buyChoice;
         std::cin >> buyChoice;
         if (buyChoice == 0) break;
         if (buyChoice < 1 ||
             buyChoice > static_cast<int>(shop_items_npc.size())) {
-          std::cout << "Invalid choice." << std::endl;
+          slow_cout << "Неверный выбор." << std::endl;
           continue;
         }
 
         auto& item = shop_items_npc[buyChoice - 1];
         if (player->getGold() >= item->getValue()) {
           player->spendGold(item->getValue());
-          player->addItem(
-              item);  // предполагается, что addItem принимает shared_ptr<Item>
-          std::cout << "You bought " << item->getName() << "!" << std::endl;
+          player->addItem(item);
+          slow_cout << "Вы покупаете " << item->getName() << "!" << std::endl;
         } else {
-          std::cout << "Not enough gold!" << std::endl;
+          slow_cout << "Недостаточно крышек!" << std::endl;
         }
       }
     } else if (mainChoice == 2) {
       // Продажа
       while (true) {
-        std::cout << "\n--- Sell to " << name_npc << " ---" << std::endl;
-        std::cout << "Your gold: " << player->getGold() << std::endl;
+        slow_cout << "\n--- Продать " << name_npc << " ---" << std::endl;
+        slow_cout << "Ваши крышки: " << player->getGold() << std::endl;
         auto& inventory = player->getInventory();
         const auto& playerItems = inventory.getItems();
         if (playerItems.empty()) {
-          std::cout << "You have nothing to sell." << std::endl;
+          slow_cout << "Нечего продавать." << std::endl;
           break;
         }
         for (size_t i = 0; i < playerItems.size(); ++i) {
-          std::cout << i + 1 << ". " << playerItems[i]->getName()
-                    << " - Sell price: " << playerItems[i]->getSellValue()
-                    << " gold" << std::endl;
+          slow_cout << i + 1 << ". " << playerItems[i]->getName()
+                    << " - Цена продажи: " << playerItems[i]->getSellValue()
+                    << " крышек" << std::endl;
         }
-        std::cout << "0. Back" << std::endl;
-        std::cout << "Choice: ";
+        slow_cout << "0. Назад" << std::endl;
+        slow_cout << "Выбор: ";
 
         int sellChoice;
         std::cin >> sellChoice;
         if (sellChoice == 0) break;
         if (sellChoice < 1 ||
             sellChoice > static_cast<int>(playerItems.size())) {
-          std::cout << "Invalid choice." << std::endl;
+          slow_cout << "Неверный выбор." << std::endl;
           continue;
         }
 
@@ -173,11 +176,11 @@ void NPC::trade() {
         int sellPrice = item->getSellValue();
         player->addGold(sellPrice);
         inventory.removeItem(item);
-        std::cout << "You sold " << item->getName() << " for " << sellPrice
-                  << " gold!" << std::endl;
+        slow_cout << "Вы продали " << item->getName() << " за " << sellPrice
+                  << " крышек!" << std::endl;
       }
     } else {
-      std::cout << "Invalid choice." << std::endl;
+      slow_cout << "Неверный выбор." << std::endl;
     }
   }
 }

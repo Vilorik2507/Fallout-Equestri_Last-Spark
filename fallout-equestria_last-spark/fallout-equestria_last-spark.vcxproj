@@ -152,6 +152,7 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Perk.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Printer.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestStage.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Perk.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Printer.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestStage.h" />
     <ClInclude Include="ResourceManager.h" />

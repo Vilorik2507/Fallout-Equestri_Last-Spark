@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Printer.h"
+
 void Inventory::addItem(std::shared_ptr<Item> item) {
   items_list.push_back(item);
 }
@@ -17,11 +19,11 @@ void Inventory::removeItem(const std::shared_ptr<Item>& item) {
 
 void Inventory::listItems() const {
   if (items_list.empty()) {
-    std::cout << "No items.\n";
+    slow_cout << "Пусто.\n";
     return;
   }
   for (size_t i = 0; i < items_list.size(); ++i) {
-    std::cout << i + 1 << ". " << items_list[i]->getName()
-              << " (value: " << items_list[i]->getValue() << ")\n";
+    slow_cout << i + 1 << ". " << items_list[i]->getName()
+              << " (цена: " << items_list[i]->getValue() << ")\n";
   }
 }

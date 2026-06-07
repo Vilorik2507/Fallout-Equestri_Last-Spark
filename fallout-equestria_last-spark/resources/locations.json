@@ -25,6 +25,6 @@
     "name": "Лес",
     "connections": "village_center",
     "npcs": "",
-    "enemies": "wolf"
+    "enemies": "wolf,goblin"
   }
 ]

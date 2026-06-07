@@ -18,7 +18,8 @@ class Enemy : public Combatant {
   bool isAlive() const override;
   int getInitiative() const override;
   const std::string& getName() const override;
-  int getDamage() const;
+  int getDamage() override;
+
   int getLevel() const;
   std::string& getLootTableId();
   void setDistance(int distance);

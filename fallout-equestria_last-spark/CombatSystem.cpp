@@ -7,6 +7,7 @@
 #include "CombatAI.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Printer.h"
 
 void CombatSystem::startCombat(std::shared_ptr<Player> pl,
                                std::vector<std::shared_ptr<Enemy>> enemies) {
@@ -16,19 +17,15 @@ void CombatSystem::startCombat(std::shared_ptr<Player> pl,
   player_turn = false;
   participants.clear();
   participants.push_back(player);
-  // Устанавливаем случайное расстояние для каждого врага и добавляем в
-  // участники
   for (auto& e : enemies) {
     if (e) {
-      int dist = 1;  // 1-15
+      int dist = 3;
       e->setDistance(dist);
       participants.push_back(e);
     }
   }
   calculateTurnOrder();
   current_index = -1;
-  // Не вызываем processNextTurn здесь – первый ход начнётся в
-  // Game::updateDeltaTime
 }
 
 void CombatSystem::calculateTurnOrder() {
@@ -57,10 +54,7 @@ void CombatSystem::nextCombatant() {
 
 void CombatSystem::processNextTurn() {
   if (!combat_active) return;
-  if (player_turn) return;  // ждём ввод игрока
-
-  // Если текущий индекс невалиден или указывает на мёртвого – переключаем на
-  // следующего
+  if (player_turn) return;
   if (current_index < 0 || !participants[current_index]->isAlive()) {
     nextCombatant();
   }
@@ -78,21 +72,19 @@ void CombatSystem::processNextTurn() {
 
   if (current == player) {
     player_turn = true;
-    std::cout << "\n=== Your turn ===" << std::endl;
+    slow_cout << "\n=== Your turn ===" << std::endl;
   } else {
     auto enemy = std::dynamic_pointer_cast<Enemy>(current);
     if (enemy) {
-      std::cout << "\n=== " << enemy->getName()
+      slow_cout << "\n=== " << enemy->getName()
                 << "'s turn (distance: " << enemy->getDistance()
                 << ") ===" << std::endl;
       CombatAI ai;
-      // Передаём только игрока как цель
       std::vector<std::shared_ptr<Combatant>> opponents = {player};
       CombatAction action = ai.chooseAction(enemy.get(), {}, opponents);
       executeAction(action);
     }
-    // Переход к следующему участнику (после хода врага)
-    nextCombatant();  // <- ключевая строка!
+    nextCombatant();
   }
 }
 
@@ -105,7 +97,6 @@ void CombatSystem::endPlayerTurn() {
 }
 
 void CombatSystem::executeAction(const CombatAction& action) {
-  // Обработка движения
   if (action.getType() == "move_towards") {
     auto* player = dynamic_cast<Player*>(action.getSource());
     auto* target_enemy = dynamic_cast<Enemy*>(action.getTarget());
@@ -114,11 +105,11 @@ void CombatSystem::executeAction(const CombatAction& action) {
       int new_dist = old_dist - 1;
       if (new_dist < 1) new_dist = 1;
       target_enemy->setDistance(new_dist);
-      std::cout << player->getName() << " moves closer to "
+      slow_cout << player->getName() << " moves closer to "
                 << target_enemy->getName() << "! Distance: " << new_dist
                 << std::endl;
     }
-    return;  // ход закончен
+    return;
   }
 
   if (action.getType() == "move") {
@@ -128,50 +119,48 @@ void CombatSystem::executeAction(const CombatAction& action) {
       int new_dist = old_dist - 1;
       if (new_dist < 1) new_dist = 1;
       enemy->setDistance(new_dist);
-      std::cout << enemy->getName() << " moves closer! Distance: " << new_dist
+      slow_cout << enemy->getName() << " moves closer! Distance: " << new_dist
                 << std::endl;
     }
-    return;  // ход закончен, processNextTurn будет вызван снова из
-             // updateDeltaTime
+    return;
   }
 
-  // Атака
   if (action.getType() == "attack") {
-    // Проверка дистанции (атака возможна только при distance <= 2)
     bool too_far = false;
+    short max_dist = 2;
+    if (player_turn) {
+      max_dist = player->getActivWeopon()->getDist();
+    }
     if (auto* enemy = dynamic_cast<Enemy*>(action.getSource())) {
-      if (enemy->getDistance() > 2) {
-        std::cout << enemy->getName()
+      if (enemy->getDistance() > max_dist) {
+        slow_cout << enemy->getName()
                   << " is too far to attack! Distance: " << enemy->getDistance()
                   << std::endl;
         too_far = true;
       }
     }
     if (too_far) {
-      // Автоматическое приближение (можно убрать, если ИИ сам выберет move)
       if (auto* enemy = dynamic_cast<Enemy*>(action.getSource())) {
         int new_dist = enemy->getDistance() - 1;
         if (new_dist < 1) new_dist = 1;
         enemy->setDistance(new_dist);
-        std::cout << enemy->getName()
+        slow_cout << enemy->getName()
                   << " moves closer instead! Distance: " << new_dist
                   << std::endl;
       }
       return;
     }
 
-    // Нормальное попадание
     if (!action.calculateHit()) {
-      std::cout << action.getSource()->getName() << " misses!\n";
+      slow_cout << action.getSource()->getName() << " misses!\n";
     } else {
       action.apply();
     }
     if (!action.getTarget()->isAlive()) {
-      std::cout << action.getTarget()->getName() << " dies!\n";
+      slow_cout << action.getTarget()->getName() << " dies!\n";
     }
   }
 
-  // Проверка окончания боя
   bool any_enemy_alive = false;
   for (auto& p : participants) {
     if (auto e = std::dynamic_pointer_cast<Enemy>(p)) {
@@ -188,7 +177,7 @@ void CombatSystem::endCombat() {
   player_turn = false;
   participants.clear();
   current_index = -1;
-  std::cout << "Combat ended.\n";
+  slow_cout << "Combat ended.\n";
 }
 
 bool CombatSystem::isCombatActive() const { return combat_active; }
