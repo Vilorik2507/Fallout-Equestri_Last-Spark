@@ -13,5 +13,15 @@
     "id": "bandits",
     "fid": 2,
     "name": "Бандиты"
+  },
+  {
+    "id": "good_faction",
+    "fid": 3,
+    "name": "Новая Заря"
+  },
+  {
+    "id": "bad_faction",
+    "fid": 4,
+    "name": "Стальные Жнецы"
   }
 ]

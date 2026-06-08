@@ -52,5 +52,45 @@
     "weight": 0.1,
     "value": 15,
     "heal": 25
+  },
+  {
+    "id": "rusty_knife",
+    "type": "weapon",
+    "name": "Ржавый нож",
+    "weight": 0.5,
+    "value": 15,
+    "damage": 6,
+    "dist": 1
+  },
+  {
+    "id": "old_map",
+    "type": "misc",
+    "name": "Старая карта",
+    "weight": 0.1,
+    "value": 50
+  },
+  {
+    "id": "respirator",
+    "type": "armor",
+    "name": "Респиратор",
+    "weight": 0.8,
+    "value": 25,
+    "defense": 1
+  },
+  {
+    "id": "stolen_bread",
+    "type": "consumable",
+    "name": "Украденный хлеб",
+    "weight": 0.3,
+    "value": 5,
+    "heal": 10
+  },
+  {
+    "id": "crystal_shard",
+    "type": "misc",
+    "name": "Осколок кристалла",
+    "weight": 0.1,
+    "value": 100,
+    "description": "Мерцающий фиолетовый осколок, пульсирующий слабой магией."
   }
 ]
