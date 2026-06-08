@@ -1,0 +1,10 @@
+[
+  {
+    "enemy_id": "wolf_loot",
+    "loot": "wolf_pelt:0.8,gold_coin:0.3"
+  },
+  {
+    "enemy_id": "goblin_loot",
+    "loot": "goblin_ear:0.9,gold_coin:0.5,healing_potion_small:0.1"
+  }
+]

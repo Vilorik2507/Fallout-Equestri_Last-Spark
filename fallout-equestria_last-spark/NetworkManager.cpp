@@ -3,6 +3,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "Printer.h"
+
 NetworkManager& NetworkManager::GetInstance() {
   static NetworkManager instance;
   return instance;
@@ -16,14 +18,14 @@ bool NetworkManager::Initialize() {
     std::cerr << "[!] WSAStartup failed" << std::endl;
     return false;
   }
-  std::cout << "[*] Network initialized" << std::endl;
+  slow_cout << "[*] Network initialized" << std::endl;
   return true;
 }
 
 void NetworkManager::Shutdown() {
   Disconnect();
   WSACleanup();
-  std::cout << "[*] Network shutdown" << std::endl;
+  slow_cout << "[*] Network shutdown" << std::endl;
 }
 
 bool NetworkManager::Connect(const std::string& host, int port) {
@@ -54,7 +56,7 @@ bool NetworkManager::Connect(const std::string& host, int port) {
     return false;
   }
 
-  std::cout << "[*] Connecting to " << host << ":" << port << "..."
+  slow_cout << "[*] Connecting to " << host << ":" << port << "..."
             << std::endl;
 
   if (connect(client_socket, reinterpret_cast<sockaddr*>(&server_addr),
@@ -79,14 +81,14 @@ bool NetworkManager::Connect(const std::string& host, int port) {
     connect_callback();
   }
 
-  std::cout << "[*] Connected to " << host << ":" << port << std::endl;
+  slow_cout << "[*] Connected to " << host << ":" << port << std::endl;
   return true;
 }
 
 void NetworkManager::Disconnect() {
   if (!is_connected) return;
 
-  std::cout << "[*] Disconnecting..." << std::endl;
+  slow_cout << "[*] Disconnecting..." << std::endl;
 
   is_running = false;
   is_connected = false;
@@ -120,7 +122,7 @@ void NetworkManager::Disconnect() {
     disconnect_callback();
   }
 
-  std::cout << "[*] Disconnected" << std::endl;
+  slow_cout << "[*] Disconnected" << std::endl;
 }
 
 bool NetworkManager::Send(const std::string& message) {
@@ -153,7 +155,7 @@ void NetworkManager::Update() { ProcessReceivedData(); }
 
 void NetworkManager::ReceiveLoop() {
   char buffer[kBufferSize];
-  std::cout << "[*] Receive thread started" << std::endl;
+  slow_cout << "[*] Receive thread started" << std::endl;
 
   while (is_running && is_connected) {
     fd_set read_set;
@@ -174,7 +176,7 @@ void NetworkManager::ReceiveLoop() {
       int bytes_received = recv(client_socket, buffer, kBufferSize - 1, 0);
 
       if (bytes_received == 0) {
-        std::cout << "[*] Server closed connection" << std::endl;
+        slow_cout << "[*] Server closed connection" << std::endl;
         break;
       }
 
@@ -217,11 +219,11 @@ void NetworkManager::ReceiveLoop() {
     is_running = false;
   }
 
-  std::cout << "[*] Receive thread stopped" << std::endl;
+  slow_cout << "[*] Receive thread stopped" << std::endl;
 }
 
 void NetworkManager::HeartbeatLoop() {
-  std::cout << "[*] Heartbeat thread started (interval: "
+  slow_cout << "[*] Heartbeat thread started (interval: "
             << kHeartbeatIntervalSec << " sec)" << std::endl;
 
   while (is_running && is_connected) {
@@ -236,7 +238,7 @@ void NetworkManager::HeartbeatLoop() {
     }
   }
 
-  std::cout << "[*] Heartbeat thread stopped" << std::endl;
+  slow_cout << "[*] Heartbeat thread stopped" << std::endl;
 }
 
 void NetworkManager::ProcessReceivedData() {

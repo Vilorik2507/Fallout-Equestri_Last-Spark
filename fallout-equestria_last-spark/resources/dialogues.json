@@ -1,0 +1,47 @@
+[
+  {
+    "id": "elder_dialogue",
+    "startNode": "node1",
+    "node1_id": "node1",
+    "node1_line": "Привет, путник. Чем могу помочь?",
+    "node1_choices": "Расскажи о деревне|node2|neutral:0|-;Мне нужен квест|node3|neutral:0|first_quest;Пока|end|neutral:0|-",
+    "node2_id": "node2",
+    "node2_line": "Наша деревня славится пшеницей.",
+    "node2_choices": "А квест есть?|node3|neutral:0|-;Прощай|end|neutral:0|-",
+    "node3_id": "node3",
+    "node3_line": "В лесу за деревней появились волки. Убей трёх волков.",
+    "node3_choices": "Берусь!|end|neutral:5|hunt_wolves;Отказ|end|neutral:-1|-",
+    "node4_id": "end",
+    "node4_line": "Будь осторожен, путник.",
+    "node4_choices": ""
+  },
+  {
+    "id": "trader_dialogue",
+    "startNode": "node1",
+    "node1_id": "node1",
+    "node1_line": "Что желаешь купить?",
+    "node1_choices": "Показать товары|node2|neutral:0|-;Ничего, спасибо|end|neutral:0|-",
+    "node2_id": "node2",
+    "node2_line": "У меня есть железный меч, кожанная броня и зелья.",
+    "node2_choices": "Спасибо, зайду позже|end|neutral:0|-",
+    "node3_id": "end",
+    "node3_line": "Всего доброго.",
+    "node3_choices": ""
+  },
+  {
+    "id": "guard_dialogue",
+    "startNode": "node1",
+    "node1_id": "node1",
+    "node1_line": "Стой, кто идёт?",
+    "node1_choices": "Я мирный путник|node2|city_watch:1|-;Проходи, я спешу|node3|city_watch:-2|-",
+    "node2_id": "node2",
+    "node2_line": "Добро пожаловать в город.",
+    "node2_choices": "Спасибо|end|neutral:0|-",
+    "node3_id": "node3",
+    "node3_line": "Следи за собой, чужеземец.",
+    "node3_choices": "...|end|neutral:0|-",
+    "node4_id": "end",
+    "node4_line": "",
+    "node4_choices": ""
+  }
+]
