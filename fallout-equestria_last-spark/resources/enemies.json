@@ -16,5 +16,50 @@
     "damage": 10,
     "initiative": 10,
     "loot_table": "goblin_loot"
+  },
+  {
+    "id": "bandit_thug",
+    "name": "Бандит",
+    "level": 2,
+    "hp": 35,
+    "damage": 8,
+    "initiative": 10,
+    "loot_table": "bandit_loot"
+  },
+  {
+    "id": "bandit_leader",
+    "name": "Главарь бандитов",
+    "level": 3,
+    "hp": 55,
+    "damage": 12,
+    "initiative": 12,
+    "loot_table": "bandit_leader_loot"
+  },
+  {
+    "id": "jnec_thug",
+    "name": "Головорез Жнецов",
+    "level": 2,
+    "hp": 40,
+    "damage": 10,
+    "initiative": 11,
+    "loot_table": "jnec_loot"
+  },
+  {
+    "id": "ghoul",
+    "name": "Гуль",
+    "level": 2,
+    "hp": 45,
+    "damage": 9,
+    "initiative": 8,
+    "loot_table": "ghoul_loot"
+  },
+  {
+    "id": "sombre",
+    "name": "Король Сомбра",
+    "level": 8,
+    "hp": 150,
+    "damage": 25,
+    "initiative": 18,
+    "loot_table": "sombre_loot"
   }
 ]

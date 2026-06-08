@@ -6,5 +6,25 @@
   {
     "enemy_id": "goblin_loot",
     "loot": "goblin_ear:0.9,gold_coin:0.5,healing_potion_small:0.1"
-  }
+  },
+  {
+  "enemy_id": "bandit_loot",
+  "loot": "gold_coin:0.5,health_potion:0.2,rusty_knife:0.1"
+},
+{
+  "enemy_id": "bandit_leader_loot",
+  "loot": "gold_coin:0.8,iron_sword:0.3,health_potion:0.5"
+},
+{
+  "enemy_id": "jnec_loot",
+  "loot": "gold_coin:0.6,health_potion:0.2"
+},
+{
+  "enemy_id": "ghoul_loot",
+  "loot": "gold_coin:0.1,old_map:0.05"
+},
+{
+  "enemy_id": "sombre_loot",
+  "loot": "gold_coin:2.0,crystal_shard:1.0"
+}
 ]

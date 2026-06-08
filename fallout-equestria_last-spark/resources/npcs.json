@@ -19,5 +19,47 @@
     "dialogue": "guard_dialogue",
     "faction": "city_watch",
     "shop": "health_potion,iron_sword,leather_armor"
-  }
+  },
+  {
+    "id": "sombre",
+    "name": "Король Сомбра",
+    "dialogue": "sombre_dialogue",
+    "faction": "neutral",
+    "shop": null
+  },
+  {
+    "id": "ghoul_leader",
+    "name": "Вожак гулей",
+    "dialogue": "ghoul_leader_dialogue",
+    "faction": "neutral",
+    "shop": null
+  },
+  {
+    "id": "bandit_leader",
+    "name": "Главарь бандитов",
+    "dialogue": "bandit_leader_dialogue",
+    "faction": "bandits",
+    "shop": null
+  },
+  {
+    "id": "good_faction_friend",
+    "name": "Друг из Новой Зари",
+    "dialogue": "good_faction_friend_dialogue",
+    "faction": "good_faction",
+    "shop": null
+  },
+  {
+    "id": "bad_faction_leader",
+    "name": "Главарь Стальных Жнецов",
+    "dialogue": "bad_faction_leader_dialogue",
+    "faction": "bad_faction",
+    "shop": null
+  },
+  {
+  "id": "overseer",
+  "name": "Смотрительница",
+  "dialogue": "overseer_dialogue",
+  "faction": "neutral",
+  "shop": null
+}
 ]
