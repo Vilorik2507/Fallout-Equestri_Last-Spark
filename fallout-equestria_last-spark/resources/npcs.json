@@ -24,42 +24,36 @@
     "id": "sombre",
     "name": "Король Сомбра",
     "dialogue": "sombre_dialogue",
-    "faction": "neutral",
-    "shop": null
+    "faction": "neutral"
   },
   {
     "id": "ghoul_leader",
     "name": "Вожак гулей",
     "dialogue": "ghoul_leader_dialogue",
-    "faction": "neutral",
-    "shop": null
+    "faction": "neutral"
   },
   {
     "id": "bandit_leader",
     "name": "Главарь бандитов",
     "dialogue": "bandit_leader_dialogue",
-    "faction": "bandits",
-    "shop": null
+    "faction": "bandits"
   },
   {
     "id": "good_faction_friend",
     "name": "Друг из Новой Зари",
     "dialogue": "good_faction_friend_dialogue",
-    "faction": "good_faction",
-    "shop": null
+    "faction": "good_faction"
   },
   {
     "id": "bad_faction_leader",
     "name": "Главарь Стальных Жнецов",
     "dialogue": "bad_faction_leader_dialogue",
-    "faction": "bad_faction",
-    "shop": null
+    "faction": "bad_faction"
   },
   {
   "id": "overseer",
   "name": "Смотрительница",
   "dialogue": "overseer_dialogue",
-  "faction": "neutral",
-  "shop": null
+  "faction": "neutral"
 }
 ]

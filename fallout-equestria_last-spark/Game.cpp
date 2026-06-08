@@ -27,7 +27,7 @@ Game::Game() {
 void Game::startGame() {
   ResourceManager::init("resources");
   Location::setGameContext(player_object, combat_system, this);
-  current_location = ResourceManager::getLocation("village_center");
+  current_location = ResourceManager::getLocation("vault_room");
   current_location->onEnter();
 }
 

@@ -22,7 +22,8 @@ void Location::setGameContext(std::shared_ptr<Player> player,
   g_game = game;
 }
 
-Location::Location(const std::string& name) : name_loc(name) {};
+Location::Location(const std::string& name, const std::string& disc)
+    : name_loc(name), description(disc) {};
 
 void Location::addConnection(std::shared_ptr<Location> connection) {
   connections_loc.push_back(std::move(connection));
@@ -50,6 +51,13 @@ void Location::removeEnemy(size_t index) {
 
 void Location::onEnter() {
   slow_cout << "\n=== " << name_loc << " ===\n";
+  if (description != "") {
+    slow_cout.setMode(SlowMode::CharByChar);
+    slow_cout.setDelay(25);
+    slow_cout << description << std::endl;
+    slow_cout.setDelay(200);
+    slow_cout.setMode(SlowMode::LineByLine);
+  }
   if (!enemies_list.empty()) {
     slow_cout << "Вас атакуют враги!\n";
     slow_cout << "Враги:\n";
@@ -69,7 +77,7 @@ void Location::onEnter() {
 
 void Location::showMenu() {
   while (true) {
-    slow_cout << "\nЗдесь вы можете:\n";
+    slow_cout << "\nВы можете:\n";
     int choiceIndex = 1;
 
     if (!npc_list.empty()) {

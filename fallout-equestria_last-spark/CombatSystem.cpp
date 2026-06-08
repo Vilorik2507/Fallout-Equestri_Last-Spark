@@ -128,7 +128,7 @@ void CombatSystem::executeAction(const CombatAction& action) {
   if (action.getType() == "attack") {
     bool too_far = false;
     short max_dist = 2;
-    if (player_turn) {
+    if (player_turn && player->getActivWeopon()) {
       max_dist = player->getActivWeopon()->getDist();
     }
     if (auto* enemy = dynamic_cast<Enemy*>(action.getSource())) {

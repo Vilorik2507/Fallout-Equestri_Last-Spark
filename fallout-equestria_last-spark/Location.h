@@ -11,7 +11,7 @@ class Enemy;
 
 class Location {
  public:
-  Location(const std::string& name);
+  Location(const std::string& name, const std::string& disc = "");
   ~Location() = default;
 
   static void setGameContext(std::shared_ptr<Player> player,
@@ -44,6 +44,7 @@ class Location {
   static Game* g_game;
 
   std::string name_loc;
+  std::string description;
   std::vector<std::shared_ptr<Location>> connections_loc;
   std::vector<std::shared_ptr<NPC>> npc_list;
   std::vector<std::shared_ptr<Enemy>> enemies_list;
