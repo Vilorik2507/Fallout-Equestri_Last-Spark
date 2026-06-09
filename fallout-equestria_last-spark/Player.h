@@ -47,6 +47,7 @@ class Player : public Combatant {
   void spendGold(int amount);
   void addGold(int amount);
   const std::string& getName() const override { return name_pl; };
+  void setName(std::string& name) { name_pl = name; };
   void useItem(int index);
 
  private:

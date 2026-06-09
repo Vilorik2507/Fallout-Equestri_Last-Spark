@@ -152,6 +152,7 @@
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="Mod.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="NetworkPlayer.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Perk.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Mod.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NetworkPlayer.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Perk.h" />
     <ClInclude Include="Player.h" />

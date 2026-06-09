@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class Player;
@@ -42,6 +43,7 @@ class Location {
   static std::shared_ptr<Player> g_player;
   static std::shared_ptr<CombatSystem> g_combatSystem;
   static Game* g_game;
+  static std::unordered_map<std::string, std::string> tags;
 
   std::string name_loc;
   std::string description;

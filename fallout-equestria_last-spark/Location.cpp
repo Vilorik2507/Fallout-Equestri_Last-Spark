@@ -12,6 +12,7 @@
 
 std::shared_ptr<Player> Location::g_player = nullptr;
 std::shared_ptr<CombatSystem> Location::g_combatSystem = nullptr;
+std::unordered_map<std::string, std::string> Location::tags;
 Game* Location::g_game = nullptr;
 
 void Location::setGameContext(std::shared_ptr<Player> player,
@@ -20,6 +21,7 @@ void Location::setGameContext(std::shared_ptr<Player> player,
   g_player = player;
   g_combatSystem = combatSystem;
   g_game = game;
+  tags = {{"{name}", player->getName()}};
 }
 
 Location::Location(const std::string& name, const std::string& disc)
@@ -54,9 +56,14 @@ void Location::onEnter() {
   if (description != "") {
     slow_cout.setMode(SlowMode::CharByChar);
     slow_cout.setDelay(25);
-    slow_cout << description << std::endl;
+    slow_cout << slow_cout.replaceTags(description, tags) << std::endl;
     slow_cout.setDelay(200);
     slow_cout.setMode(SlowMode::LineByLine);
+  }
+  if (name_loc == "Арена") {
+    g_game->startMultiplayerMatch(g_player->getName(), "193.219.117.94", 18080);
+    g_game->setMenuShown(true);
+    return;
   }
   if (!enemies_list.empty()) {
     slow_cout << "Вас атакуют враги!\n";
@@ -77,6 +84,7 @@ void Location::onEnter() {
 
 void Location::showMenu() {
   while (true) {
+    if (g_combatSystem->isCombatActive()) return;
     slow_cout << "\nВы можете:\n";
     int choiceIndex = 1;
 

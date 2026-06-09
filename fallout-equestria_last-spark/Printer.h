@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <thread>
+#include <unordered_map>
 
 enum class SlowMode {
   CharByChar,  // посимвольно с задержкой между буквами
@@ -49,6 +50,31 @@ class Printer {
       std::cout << manip;
     }
     return *this;
+  }
+
+  static std::string replaceTags(
+      const std::string& str,
+      const std::unordered_map<std::string, std::string>& tags) {
+    std::string result;
+    result.reserve(str.size());
+
+    for (size_t i = 0; i < str.size();) {
+      if (str[i] == '{') {
+        size_t end = str.find('}', i);
+        if (end != std::string::npos) {
+          std::string key = str.substr(i, end - i + 1);
+          auto it = tags.find(key);
+          if (it != tags.end()) {
+            result += it->second;
+            i = end + 1;
+            continue;
+          }
+        }
+      }
+      result += str[i];
+      ++i;
+    }
+    return result;
   }
 
  private:

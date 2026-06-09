@@ -9,6 +9,27 @@
 #include "Player.h"
 #include "Printer.h"
 
+void CombatSystem::startMultiplayerCombat(
+    std::shared_ptr<Player> local_player,
+    std::shared_ptr<NetworkPlayer> opponent) {
+  if (!local_player || !opponent) return;
+  player = local_player;
+  combat_active = true;
+  is_multiplayer = true;
+  participants.clear();
+  participants.push_back(local_player);
+  participants.push_back(opponent);
+  calculateTurnOrder();
+  current_index = -1;
+  processNextTurn();
+}
+
+void CombatSystem::setPlayerTurn(bool turn) {
+  if (is_multiplayer) {
+    player_turn = turn;
+  }
+}
+
 void CombatSystem::startCombat(std::shared_ptr<Player> pl,
                                std::vector<std::shared_ptr<Enemy>> enemies) {
   if (!pl || enemies.empty()) return;
@@ -53,6 +74,7 @@ void CombatSystem::nextCombatant() {
 }
 
 void CombatSystem::processNextTurn() {
+  if (is_multiplayer) return;
   if (!combat_active) return;
   if (player_turn) return;
   if (current_index < 0 || !participants[current_index]->isAlive()) {
@@ -72,7 +94,7 @@ void CombatSystem::processNextTurn() {
 
   if (current == player) {
     player_turn = true;
-    slow_cout << "\n=== Your turn ===" << std::endl;
+    slow_cout << "\n=== “вой ход ===" << std::endl;
   } else {
     auto enemy = std::dynamic_pointer_cast<Enemy>(current);
     if (enemy) {

@@ -40,7 +40,6 @@ bool NetworkManager::Connect(const std::string& host, int port) {
     return false;
   }
 
-  // Простой TCP keepalive (без SIO_KEEPALIVE_VALS)
   int keepalive = 1;
   setsockopt(client_socket, SOL_SOCKET, SO_KEEPALIVE,
              reinterpret_cast<const char*>(&keepalive), sizeof(keepalive));
@@ -71,7 +70,6 @@ bool NetworkManager::Connect(const std::string& host, int port) {
   is_connected = true;
   is_running = true;
 
-  // Запуск потоков
   receive_thread =
       std::make_unique<std::thread>(&NetworkManager::ReceiveLoop, this);
   heartbeat_thread =
@@ -93,7 +91,6 @@ void NetworkManager::Disconnect() {
   is_running = false;
   is_connected = false;
 
-  // Ожидание завершения потоков
   if (receive_thread && receive_thread->joinable()) {
     receive_thread->join();
   }
@@ -109,7 +106,6 @@ void NetworkManager::Disconnect() {
     client_socket = INVALID_SOCKET;
   }
 
-  // Очистка очереди
   {
     std::lock_guard<std::mutex> lock(queue_mutex);
     while (!message_queue.empty()) {
@@ -162,7 +158,7 @@ void NetworkManager::ReceiveLoop() {
     FD_ZERO(&read_set);
     FD_SET(client_socket, &read_set);
 
-    timeval timeout{0, 100000};  // 100 мс
+    timeval timeout{0, 100000};  
 
     int select_result = select(0, &read_set, nullptr, nullptr, &timeout);
 
@@ -227,14 +223,11 @@ void NetworkManager::HeartbeatLoop() {
             << kHeartbeatIntervalSec << " sec)" << std::endl;
 
   while (is_running && is_connected) {
-    // Ждём интервал
     std::this_thread::sleep_for(std::chrono::seconds(kHeartbeatIntervalSec));
 
     if (!is_connected || !is_running) break;
 
-    // Отправляем heartbeat ВСЕГДА каждые 25 секунд
     if (Send("HEARTBEAT")) {
-      // Ничего не обновляем, просто отправили
     }
   }
 
@@ -248,7 +241,6 @@ void NetworkManager::ProcessReceivedData() {
     std::string message = message_queue.front();
     message_queue.pop();
 
-    // Пропускаем heartbeat сообщения
     if (message == "HEARTBEAT" || message.find("HEARTBEAT") == 0) {
       continue;
     }
