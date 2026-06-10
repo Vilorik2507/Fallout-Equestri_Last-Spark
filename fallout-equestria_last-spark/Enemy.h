@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef ENEMY_H
+#define ENEMY_H
 #include <iostream>
 
 #include "CombatAI.h"
@@ -10,7 +10,6 @@ class Enemy : public Combatant {
   Enemy(const std::string& name, int level, int hp, int damage, int initiative,
         const std::string& lootTableId);
 
-  void dropReward();
   void applyDamage(int damage) override;
 
   // Combatant interface
@@ -18,10 +17,10 @@ class Enemy : public Combatant {
   bool isAlive() const override;
   int getInitiative() const override;
   const std::string& getName() const override;
-  int getDamage() override;
+  int getDamage() const override;
 
   int getLevel() const;
-  std::string& getLootTableId();
+  const std::string& getLootTableId();
   void setDistance(int distance);
   int getDistance() const;
 
@@ -36,3 +35,4 @@ class Enemy : public Combatant {
   CombatAI* ai_en;
   int distance_en;
 };
+#endif  // !ENEMY_H

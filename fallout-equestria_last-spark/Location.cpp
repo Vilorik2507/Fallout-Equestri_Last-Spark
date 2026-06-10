@@ -14,16 +14,6 @@ std::shared_ptr<Player> Location::g_player = nullptr;
 std::shared_ptr<CombatSystem> Location::g_combatSystem = nullptr;
 std::unordered_map<std::string, std::string> Location::tags;
 Game* Location::g_game = nullptr;
-
-void Location::setGameContext(std::shared_ptr<Player> player,
-                              std::shared_ptr<CombatSystem> combatSystem,
-                              Game* game) {
-  g_player = player;
-  g_combatSystem = combatSystem;
-  g_game = game;
-  tags = {{"{name}", player->getName()}};
-}
-
 Location::Location(const std::string& name, const std::string& disc)
     : name_loc(name), description(disc) {};
 
@@ -50,6 +40,14 @@ void Location::removeEnemy(size_t index) {
     enemies_list.erase(enemies_list.begin() + index);
   }
 }
+void Location::setGameContext(std::shared_ptr<Player> player,
+                              std::shared_ptr<CombatSystem> combatSystem,
+                              Game* game) {
+  g_player = player;
+  g_combatSystem = combatSystem;
+  g_game = game;
+  tags = {{"{name}", player->getName()}};
+}
 
 void Location::onEnter() {
   slow_cout << "\n=== " << name_loc << " ===\n";
@@ -66,6 +64,15 @@ void Location::onEnter() {
     return;
   }
   if (!enemies_list.empty()) {
+    if (name_loc == "Груда ржавых машин") {
+      g_combatSystem->setWinTargetLocation("highway");
+    } else if (name_loc == "Зал Кристального Сердца") {
+      g_combatSystem->setWinTargetLocation("final_choice");
+    } else if (name_loc == "Лагерь Стальных Жнецов") {
+      g_combatSystem->setWinTargetLocation("crystal_empire_gate");
+    } else if (name_loc == "Площадь Кристальной Империи") {
+      g_combatSystem->setWinTargetLocation("crystal_palace");
+    }
     slow_cout << "Вас атакуют враги!\n";
     slow_cout << "Враги:\n";
     for (const auto& enemy : enemies_list) {
@@ -156,7 +163,6 @@ void Location::showInventory() {
     slow_cout << "\n=== Ваш инвентарь ===\n";
     for (size_t i = 0; i < items.size(); ++i) {
       slow_cout << i + 1 << ". " << items[i]->getName()
-                << " (вес: " << items[i]->getWeight()
                 << ", цена: " << items[i]->getValue() << ")\n";
     }
     slow_cout << "0. Назад\n";

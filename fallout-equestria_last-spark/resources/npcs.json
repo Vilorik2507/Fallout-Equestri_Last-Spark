@@ -9,7 +9,7 @@
   {
     "id": "trader",
     "name": "Торговец",
-    "dialogue": "trader_dialogue",
+    "dialogue": "friend_shop_dialogue",
     "faction": "neutral",
     "shop": "health_potion,iron_sword,leather_armor"
   },
@@ -42,7 +42,8 @@
     "id": "good_faction_friend",
     "name": "Друг из Новой Зари",
     "dialogue": "good_faction_friend_dialogue",
-    "faction": "good_faction"
+    "faction": "good_faction",
+    "shop": "health_potion,iron_sword,leather_armor"
   },
   {
     "id": "bad_faction_leader",
@@ -51,9 +52,15 @@
     "faction": "bad_faction"
   },
   {
-  "id": "overseer",
-  "name": "Смотрительница",
-  "dialogue": "overseer_dialogue",
-  "faction": "neutral"
-}
+    "id": "overseer",
+    "name": "Смотрительница",
+    "dialogue": "overseer_dialogue",
+    "faction": "neutral"
+  },
+  {
+    "id": "shiza",
+    "name": "Шиза",
+    "dialogue": "shiza_secret_reveal",
+    "faction": "neutral"
+  }
 ]

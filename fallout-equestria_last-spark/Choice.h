@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CHOICE_H
+#define CHOICE_H
+
 #include <map>
 #include <string>
 
@@ -24,3 +26,5 @@ class Choice {
   std::string next_node_id;
   Quest* triggered_quest;
 };
+
+#endif  // CHOICE_H

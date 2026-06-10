@@ -1,64 +1,64 @@
 [
   {
     "id": "wolf",
-    "name": "пїЅпїЅпїЅпїЅ",
+    "name": "Волк",
     "level": 1,
-    "hp": 30,
-    "damage": 8,
+    "hp": 25,
+    "damage": 5,
     "initiative": 12,
     "loot_table": "wolf_loot"
   },
   {
     "id": "goblin",
-    "name": "пїЅпїЅпїЅпїЅпїЅпїЅ",
+    "name": "Гоблин",
     "level": 2,
-    "hp": 45,
-    "damage": 10,
+    "hp": 30,
+    "damage": 5,
     "initiative": 10,
     "loot_table": "goblin_loot"
   },
   {
     "id": "bandit_thug",
-    "name": "пїЅпїЅпїЅпїЅпїЅпїЅ",
+    "name": "Бандит",
     "level": 2,
-    "hp": 35,
-    "damage": 8,
-    "initiative": 10,
+    "hp": 25,
+    "damage": 4,
+    "initiative": 9,
     "loot_table": "bandit_loot"
   },
   {
     "id": "bandit_leader",
-    "name": "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
+    "name": "Главарь бандитов",
     "level": 3,
-    "hp": 55,
-    "damage": 12,
-    "initiative": 12,
+    "hp": 30,
+    "damage": 8,
+    "initiative": 11,
     "loot_table": "bandit_leader_loot"
   },
   {
     "id": "jnec_thug",
-    "name": "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ",
+    "name": "Головорез Жнецов",
     "level": 2,
-    "hp": 40,
-    "damage": 10,
-    "initiative": 11,
+    "hp": 35,
+    "damage": 5,
+    "initiative": 10,
     "loot_table": "jnec_loot"
   },
   {
     "id": "ghoul",
-    "name": "пїЅпїЅпїЅпїЅ",
+    "name": "Гуль",
     "level": 2,
-    "hp": 45,
-    "damage": 9,
+    "hp": 40,
+    "damage": 6,
     "initiative": 8,
     "loot_table": "ghoul_loot"
   },
   {
     "id": "sombre",
-    "name": "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ",
+    "name": "Король Сомбра",
     "level": 8,
-    "hp": 150,
-    "damage": 25,
+    "hp": 20,
+    "damage": 12,
     "initiative": 18,
     "loot_table": "sombre_loot"
   }

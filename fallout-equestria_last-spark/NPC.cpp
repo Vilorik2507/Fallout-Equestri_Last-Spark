@@ -7,6 +7,11 @@
 #include "Player.h"
 #include "Printer.h"
 
+bool NPC::hasShop() const { return !shop_items_npc.empty(); }
+
+void NPC::addShopItem(std::shared_ptr<Item> item) {
+  if (item) shop_items_npc.push_back(item);
+}
 NPC::NPC(const std::string& name, const Dialogue* dialogue,
          const Faction* faction)
     : name_npc(name), dialogue(dialogue), faction_npc(faction) {};
@@ -77,6 +82,13 @@ void NPC::talkWithPlayer() {
     if (nextNodeId.empty() || nextNodeId == "end") {
       break;
     }
+    if (nextNodeId == "call_shiza") {
+      auto shiza = ResourceManager::getNPC("shiza");
+      if (shiza) {
+        shiza->talkWithPlayer();
+      }
+      break;
+    }
 
     currentNode = dialogue->getNode(nextNodeId);
     if (!currentNode) {
@@ -110,7 +122,6 @@ void NPC::trade() {
     if (mainChoice == 0) break;
 
     if (mainChoice == 1) {
-      // Покупка
       while (true) {
         slow_cout << "\n--- Купить у " << name_npc << " ---" << std::endl;
         slow_cout << "Ваши крышки: " << player->getGold() << std::endl;
@@ -145,7 +156,6 @@ void NPC::trade() {
         }
       }
     } else if (mainChoice == 2) {
-      // Продажа
       while (true) {
         slow_cout << "\n--- Продать " << name_npc << " ---" << std::endl;
         slow_cout << "Ваши крышки: " << player->getGold() << std::endl;
@@ -184,9 +194,3 @@ void NPC::trade() {
     }
   }
 }
-
-void NPC::addShopItem(std::shared_ptr<Item> item) {
-  if (item) shop_items_npc.push_back(item);
-}
-
-bool NPC::hasShop() const { return !shop_items_npc.empty(); }

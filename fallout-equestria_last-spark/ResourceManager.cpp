@@ -461,23 +461,22 @@ void ResourceManager::loadItems(const std::string& filePath) {
     std::string id = data["id"];
     std::string type = data["type"];
     std::string name = data["name"];
-    float weight = data.count("weight") ? std::stof(data["weight"]) : 0.0f;
     int value = data.count("value") ? std::stoi(data["value"]) : 0;
     if (type == "weapon") {
       int damage = data.count("damage") ? std::stoi(data["damage"]) : 0;
       int dist = data.count("dist") ? std::stoi(data["dist"]) : 0;
-      auto weapon = std::make_shared<Weapon>(name, weight, value, damage, dist);
+      auto weapon = std::make_shared<Weapon>(name, value, damage, dist);
       s_items[id] = weapon;
     } else if (type == "armor") {
       int defense = data.count("defense") ? std::stoi(data["defense"]) : 0;
-      auto armor = std::make_shared<Armor>(name, weight, value, defense);
+      auto armor = std::make_shared<Armor>(name, value, defense);
       s_items[id] = armor;
     } else if (type == "consumable") {
       int heal = data.count("heal") ? std::stoi(data["heal"]) : 0;
-      auto consumable = std::make_shared<Consumable>(name, weight, value, heal);
+      auto consumable = std::make_shared<Consumable>(name, value, heal);
       s_items[id] = consumable;
     } else {
-      auto item = std::make_shared<Item>(name, weight, value);
+      auto item = std::make_shared<Item>(name, value);
       s_items[id] = item;
     }
   }

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ACTION_TYPE_H
+#define ACTION_TYPE_H
+
 enum class ActionType {
   POS_UPDATE,
   PUNCH,
@@ -8,3 +10,5 @@ enum class ActionType {
   READY,
   REMATCH
 };
+
+#endif  // ACTION_TYPE_H

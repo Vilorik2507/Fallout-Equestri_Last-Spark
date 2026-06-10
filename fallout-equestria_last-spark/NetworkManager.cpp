@@ -5,12 +5,18 @@
 
 #include "Printer.h"
 
+NetworkManager::~NetworkManager() { Shutdown(); }
+void NetworkManager::Update() { ProcessReceivedData(); }
+void NetworkManager::Shutdown() {
+  Disconnect();
+  WSACleanup();
+  slow_cout << "[*] Network shutdown" << std::endl;
+}
+
 NetworkManager& NetworkManager::GetInstance() {
   static NetworkManager instance;
   return instance;
 }
-
-NetworkManager::~NetworkManager() { Shutdown(); }
 
 bool NetworkManager::Initialize() {
   WSADATA wsa_data;
@@ -20,12 +26,6 @@ bool NetworkManager::Initialize() {
   }
   slow_cout << "[*] Network initialized" << std::endl;
   return true;
-}
-
-void NetworkManager::Shutdown() {
-  Disconnect();
-  WSACleanup();
-  slow_cout << "[*] Network shutdown" << std::endl;
 }
 
 bool NetworkManager::Connect(const std::string& host, int port) {
@@ -147,8 +147,6 @@ bool NetworkManager::Send(const std::string& message) {
   return true;
 }
 
-void NetworkManager::Update() { ProcessReceivedData(); }
-
 void NetworkManager::ReceiveLoop() {
   char buffer[kBufferSize];
   slow_cout << "[*] Receive thread started" << std::endl;
@@ -158,9 +156,10 @@ void NetworkManager::ReceiveLoop() {
     FD_ZERO(&read_set);
     FD_SET(client_socket, &read_set);
 
-    timeval timeout{0, 100000};  
+    timeval timeout{0, 100000};
 
-    int select_result = select(0, &read_set, nullptr, nullptr, &timeout);
+    int select_result =
+        select(client_socket + 1, &read_set, nullptr, nullptr, &timeout);
 
     if (select_result == SOCKET_ERROR) {
       std::cerr << "[!] select failed: " << WSAGetLastError() << std::endl;
