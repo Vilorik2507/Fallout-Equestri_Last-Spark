@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NETWORK_PLAYER_H
+#define NETWORK_PLAYER_H
 #include <string>
 
 #include "Combatant.h"
@@ -14,7 +15,7 @@ class NetworkPlayer : public Combatant {
   bool isAlive() const override;
   int getInitiative() const override;
   const std::string& getName() const override;
-  int getDamage() override { return 1; };
+  int getDamage() const override { return 1; };
 
   int getDistance() const { return m_distance; };
   void setDistance(int dist) { m_distance = dist; }
@@ -30,3 +31,4 @@ class NetworkPlayer : public Combatant {
   int m_max_hp;
   int m_initiative;
 };
+#endif  // !NETWORK_PLAYER_H_H

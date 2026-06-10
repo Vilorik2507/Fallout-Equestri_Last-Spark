@@ -8,7 +8,6 @@
 #include "CombatAction.h"
 #include "CombatSystem.h"
 #include "Enemy.h"
-#include "Game.h"
 #include "GameClient.h"
 #include "GameState.h"
 #include "Location.h"
@@ -19,11 +18,12 @@
 std::shared_ptr<Player> Game::player_object;
 
 Game::Game() {
-  current_location = std::make_unique<Location>("village_center");
+  current_location = ResourceManager::getLocation("vault_room");
   if (!player_object) {
     player_object = std::make_shared<Player>();
   }
   combat_system = std::make_unique<CombatSystem>();
+  combat_system->setGame(this);
 }
 
 int generateRandomNumber() {
@@ -38,7 +38,28 @@ void Game::sendRoll() {
   m_network_manager->Send("ROLL|" + std::to_string(m_my_roll));
   slow_cout << "[MP] Sent roll: " << m_my_roll << "\n";
 }
+void Game::setLocation(std::shared_ptr<Location> loc) {
+  menuShown = false;
+  if (loc) {
+    loc->onEnter();
+  }
+  current_location = loc;
+}
+void Game::startGame() {
+  std::string player_name;
+  slow_cout << "Enter your name: ";
+  std::getline(std::cin, player_name);
 
+  if (player_name.empty()) {
+    player_name = "Понька" + std::to_string(generateRandomNumber());
+  }
+  player_object->setName(player_name);
+  ResourceManager::init("resources");
+  Location::setGameContext(player_object, combat_system, this);
+
+  current_location = ResourceManager::getLocation("vault_room");
+  current_location->onEnter();
+}
 void Game::determineFirstTurn() {
   if (m_my_roll == -1 || m_opponent_roll == -1) return;
   if (m_roll_processed) return;
@@ -62,22 +83,6 @@ void Game::determineFirstTurn() {
   }
   m_roll_processed = true;
   m_waiting_for_roll = false;
-}
-
-void Game::startGame() {
-  std::string player_name;
-  slow_cout << "Enter your name: ";
-  std::getline(std::cin, player_name);
-
-  if (player_name.empty()) {
-    player_name = "Понька" + std::to_string(generateRandomNumber());
-  }
-  player_object->setName(player_name);
-  ResourceManager::init("resources");
-  Location::setGameContext(player_object, combat_system, this);
-
-  current_location = ResourceManager::getLocation("vault_room");
-  current_location->onEnter();
 }
 
 void Game::startMultiplayerMatch(const std::string& nickname,
@@ -113,7 +118,7 @@ void Game::processNetworkMessage(const std::string& msg) {
 
   if (msg == "OPPONENT_DISCONNECTED") {
     slow_cout << "[MP] Opponent disconnected.\n";
-    combat_system->endCombat();
+    combat_system->endCombat(false);
     is_multiplayer = false;
     setMenuShown(false);
     return;
@@ -167,7 +172,7 @@ void Game::processNetworkMessage(const std::string& msg) {
       m_network_manager->Send(response);
       if (!player_object->isAlive()) {
         slow_cout << "You died! Opponent wins.\n";
-        combat_system->endCombat();
+        combat_system->endCombat(false);
         is_multiplayer = false;
         m_network_manager->Disconnect();
       } else {
@@ -185,7 +190,8 @@ void Game::processNetworkMessage(const std::string& msg) {
     std::string winner;
     std::getline(ss, winner, '|');
     slow_cout << "[MP] Game over! Winner: " << winner << "\n";
-    combat_system->endCombat();
+    bool victory = (winner == player_object->getName());
+    combat_system->endCombat(victory);
     setMenuShown(false);
     is_multiplayer = false;
     m_network_manager->Disconnect();
@@ -373,7 +379,7 @@ void Game::handleMultiplayerTurn() {
       if (!opponent->isAlive()) {
         slow_cout << "Вы выиграли!\n";
         m_network_manager->Send("GAME_OVER|" + player_object->getName());
-        combat_system->endCombat();
+        combat_system->endCombat(true);
         setMenuShown(false);
         is_multiplayer = false;
         break;
@@ -407,7 +413,7 @@ void Game::handleMultiplayerTurn() {
     case 5: {
       slow_cout << "Вы сбегаете, как трус!\n";
       m_network_manager->Send("GAME_OVER|" + opponent->getName());
-      combat_system->endCombat();
+      combat_system->endCombat(false);
       setMenuShown(false);
       is_multiplayer = false;
       break;
@@ -435,8 +441,17 @@ void Game::updateDeltaTime() {
   }
 }
 
-void Game::setLocation(std::shared_ptr<Location> loc) {
-  menuShown = false;
-  loc->onEnter();
-  current_location = loc;
+void Game::startFinalChoice() {
+  auto d = ResourceManager::getDialogue("final_choice_dialogue");
+  slow_cout << "\n" << d->getNode("node1")->getNpcLine() << "\n\n";
+  auto choices = d->getNode("node2")->getChoices();
+  for (size_t i = 0; i < choices.size(); ++i)
+    slow_cout << i + 1 << ". " << choices[i].getText() << "\n";
+  int opt;
+  std::cin >> opt;
+  slow_cout << "\n"
+            << d->getNode("node" + std::to_string(opt + 2))->getNpcLine()
+            << "\n";
+  slow_cout << "\nИгра завершена. Спасибо за прохождение!\n";
+  std::exit(0);
 }

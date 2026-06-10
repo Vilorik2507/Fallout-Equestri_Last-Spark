@@ -6,8 +6,35 @@
 
 #include "CombatAI.h"
 #include "Enemy.h"
+#include "Game.h"
 #include "Player.h"
 #include "Printer.h"
+#include "ResourceManager.h"
+
+bool CombatSystem::isCombatActive() const { return combat_active; }
+bool CombatSystem::isPlayerTurn() const { return player_turn; }
+void CombatSystem::setGame(Game* g) { game = g; }
+
+void CombatSystem::setWinTargetLocation(const std::string& locId) {
+    winTargetLocation = locId;
+}
+void CombatSystem::setPlayerTurn(bool turn) {
+    if (is_multiplayer) {
+        player_turn = turn;
+    }
+}
+void CombatSystem::calculateTurnOrder() {
+    std::sort(participants.begin(), participants.end(), [](auto& a, auto& b) {
+        return a->getInitiative() > b->getInitiative();
+        });
+}
+void CombatSystem::endPlayerTurn() {
+    if (player_turn) {
+        player_turn = false;
+        nextCombatant();
+        processNextTurn();
+    }
+}
 
 void CombatSystem::startMultiplayerCombat(
     std::shared_ptr<Player> local_player,
@@ -23,13 +50,6 @@ void CombatSystem::startMultiplayerCombat(
   current_index = -1;
   processNextTurn();
 }
-
-void CombatSystem::setPlayerTurn(bool turn) {
-  if (is_multiplayer) {
-    player_turn = turn;
-  }
-}
-
 void CombatSystem::startCombat(std::shared_ptr<Player> pl,
                                std::vector<std::shared_ptr<Enemy>> enemies) {
   if (!pl || enemies.empty()) return;
@@ -48,13 +68,6 @@ void CombatSystem::startCombat(std::shared_ptr<Player> pl,
   calculateTurnOrder();
   current_index = -1;
 }
-
-void CombatSystem::calculateTurnOrder() {
-  std::sort(participants.begin(), participants.end(), [](auto& a, auto& b) {
-    return a->getInitiative() > b->getInitiative();
-  });
-}
-
 void CombatSystem::nextCombatant() {
   if (participants.empty()) {
     current_index = -1;
@@ -72,7 +85,6 @@ void CombatSystem::nextCombatant() {
   current_index = -1;
   endCombat();
 }
-
 void CombatSystem::processNextTurn() {
   if (is_multiplayer) return;
   if (!combat_active) return;
@@ -107,14 +119,6 @@ void CombatSystem::processNextTurn() {
       executeAction(action);
     }
     nextCombatant();
-  }
-}
-
-void CombatSystem::endPlayerTurn() {
-  if (player_turn) {
-    player_turn = false;
-    nextCombatant();
-    processNextTurn();
   }
 }
 
@@ -180,6 +184,16 @@ void CombatSystem::executeAction(const CombatAction& action) {
     }
     if (!action.getTarget()->isAlive()) {
       slow_cout << action.getTarget()->getName() << " dies!\n";
+      auto* enemy = dynamic_cast<Enemy*>(action.getTarget());
+      if (enemy) {
+        ResourceManager::generateLoot(enemy->getLootTableId());
+        int expReward = 10;
+        if (enemy->getName() == "Главарь бандитов" ||
+            enemy->getName() == "Король Сомбра")
+          expReward = 50;
+        player->addExp(expReward);
+        slow_cout << "Вы получили " << expReward << " опыта.\n";
+      }
     }
   }
 
@@ -189,21 +203,42 @@ void CombatSystem::executeAction(const CombatAction& action) {
       if (e->isAlive()) any_enemy_alive = true;
     }
   }
-  if (!any_enemy_alive || !player->isAlive()) {
-    endCombat();
+  if (!any_enemy_alive) {
+    endCombat(true); 
+  } else if (!player->isAlive()) {
+    endCombat(false); 
   }
 }
 
-void CombatSystem::endCombat() {
+void CombatSystem::endCombat(bool victory) {
   combat_active = false;
   player_turn = false;
   participants.clear();
   current_index = -1;
   slow_cout << "Combat ended.\n";
-}
 
-bool CombatSystem::isCombatActive() const { return combat_active; }
-bool CombatSystem::isPlayerTurn() const { return player_turn; }
+  if (!game) {
+    slow_cout << "Error: game pointer is null!\n";
+    return;
+  }
+
+  if (victory) {
+    if (winTargetLocation == "final_choice") {
+      game->startFinalChoice();
+    } else {
+      auto target = ResourceManager::getLocation(winTargetLocation);
+      if (target) {
+        game->setLocation(target);
+        slow_cout << "Переход на локацию: " << winTargetLocation << std::endl;
+      } else {
+        slow_cout << "Локация не найдена: " << winTargetLocation << std::endl;
+      }
+    }
+  } else {
+    slow_cout << "Вы погибли. Игра завершена.\n";
+    std::exit(0);
+  }
+}
 
 std::vector<std::shared_ptr<Enemy>> CombatSystem::getLivingEnemies() const {
   std::vector<std::shared_ptr<Enemy>> result;

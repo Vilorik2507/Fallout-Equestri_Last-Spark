@@ -1,10 +1,10 @@
 #include "Dialogue.h"
+void Dialogue::setStartNode(const std::string& nodeId) { startNodeId = nodeId; }
+
 Dialogue::Dialogue(const std::string& id) : id(id) {};
 void Dialogue::addNode(const std::string& nodeId, DialogueNode* node) {
   nodes_di[nodeId] = node;
 }
-
-void Dialogue::setStartNode(const std::string& nodeId) { startNodeId = nodeId; }
 
 DialogueNode* Dialogue::getStartNode() const {
   auto it = nodes_di.find(startNodeId);
@@ -16,8 +16,10 @@ DialogueNode* Dialogue::getNode(const std::string& nodeId) const {
   return it != nodes_di.end() ? it->second : nullptr;
 }
 
-void Dialogue::chooseChoice(const std::string& choiceId) {
-  // Реализация перехода по выбору
-}
-
 const std::string& Dialogue::getId() const { return id; }
+Dialogue::~Dialogue() {
+  for (auto& pair : nodes_di) {
+    delete pair.second;
+  }
+  nodes_di.clear();
+}

@@ -128,13 +128,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActionType.cpp" />
     <ClCompile Include="Armor.cpp" />
-    <ClCompile Include="CharacterStats.cpp" />
     <ClCompile Include="Choice.cpp" />
     <ClCompile Include="CombatAction.cpp" />
     <ClCompile Include="CombatAI.cpp" />
-    <ClCompile Include="Combatant.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="Dialogue.cpp" />
@@ -144,9 +141,7 @@
     <ClCompile Include="Faction.cpp" />
     <ClCompile Include="fallout-equestria_last-spark.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameAction.cpp" />
     <ClCompile Include="GameClient.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Location.cpp" />
@@ -154,13 +149,11 @@
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="NetworkPlayer.cpp" />
     <ClCompile Include="NPC.cpp" />
-    <ClCompile Include="Perk.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Printer.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestStage.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>

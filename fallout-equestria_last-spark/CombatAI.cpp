@@ -8,7 +8,7 @@ CombatAction CombatAI::chooseAction(
     const std::vector<std::shared_ptr<Combatant>>& enemies) {
   Combatant* target = nullptr;
   for (const auto& e : enemies) {
-    if (e.get() != self && e->isAlive()) {
+    if (e && e->isAlive()) {
       target = e.get();
       break;
     }

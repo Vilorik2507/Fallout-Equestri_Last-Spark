@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_STATE_H
+#define GAME_STATE_H
 #include <map>
 #include <string>
 #include <vector>
@@ -9,15 +10,17 @@
 #include "Quest.h"
 
 class GameState {
- public:
-  GameState() = default;
-  ~GameState() = default;
+public:
+    GameState() = default;
+    ~GameState() = default;
 
-  std::string serializeState(Player& player, std::vector<Quest*>& quests,
-                             std::map<std::string, Location*>& locations,
-                             std::map<Faction, int>& reputation);
-  GameState* deserializeState(const std::string& data);
+    std::string serializeState(Player& player, std::vector<Quest*>& quests,
+        std::map<std::string, Location*>& locations,
+        std::map<Faction, int>& reputation);
+    GameState* deserializeState(const std::string& data);
 
- private:
-  // Поля по вашему усмотрению
+private:
+    // Поля по вашему усмотрению
 };
+#endif // !GAME_STATE_H
+

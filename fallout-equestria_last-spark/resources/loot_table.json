@@ -9,7 +9,7 @@
   },
   {
   "enemy_id": "bandit_loot",
-  "loot": "gold_coin:0.5,health_potion:0.2,rusty_knife:0.1"
+  "loot": "gold_coin:0.9,health_potion:0.5,rusty_knife:0.3"
 },
 {
   "enemy_id": "bandit_leader_loot",
