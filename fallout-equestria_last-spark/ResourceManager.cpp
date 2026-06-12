@@ -504,7 +504,7 @@ void ResourceManager::loadLocations(const std::string& filePath) {
     std::string name = data["name"];
     std::string description = data["description"];
 
-    auto location = std::make_shared<Location>(name, description);
+    auto location = std::make_shared<Location>(name, description, id);
 
     if (data.count("connections")) {
       std::string connStr = data["connections"];

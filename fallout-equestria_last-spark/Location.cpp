@@ -14,8 +14,8 @@ std::shared_ptr<Player> Location::g_player = nullptr;
 std::shared_ptr<CombatSystem> Location::g_combatSystem = nullptr;
 std::unordered_map<std::string, std::string> Location::tags;
 Game* Location::g_game = nullptr;
-Location::Location(const std::string& name, const std::string& disc)
-    : name_loc(name), description(disc) {};
+Location::Location(const std::string& name, const std::string& disc, const std::string& id)
+    : name_loc(name), description(disc), loc_id(id) {};
 
 void Location::addConnection(std::shared_ptr<Location> connection) {
   connections_loc.push_back(std::move(connection));
@@ -58,21 +58,13 @@ void Location::onEnter() {
     slow_cout.setDelay(200);
     slow_cout.setMode(SlowMode::LineByLine);
   }
-  if (name_loc == "Арена") {
+  if (loc_id == "Arena") {
     g_game->startMultiplayerMatch(g_player->getName(), "193.219.117.94", 18080);
     g_game->setMenuShown(true);
     return;
   }
   if (!enemies_list.empty()) {
-    if (name_loc == "Груда ржавых машин") {
-      g_combatSystem->setWinTargetLocation("highway");
-    } else if (name_loc == "Зал Кристального Сердца") {
-      g_combatSystem->setWinTargetLocation("final_choice");
-    } else if (name_loc == "Лагерь Стальных Жнецов") {
-      g_combatSystem->setWinTargetLocation("crystal_empire_gate");
-    } else if (name_loc == "Площадь Кристальной Империи") {
-      g_combatSystem->setWinTargetLocation("crystal_palace");
-    }
+    g_combatSystem->setWinTargetLocation("loc_id");
     slow_cout << "Вас атакуют враги!\n";
     slow_cout << "Враги:\n";
     for (const auto& enemy : enemies_list) {
